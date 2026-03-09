@@ -9,8 +9,8 @@ import os
 # CONFIGURATION — edit these paths
 # ============================================================
 
-INPUT_H5   = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state/coor_0/trajectories_sample_0.h5"
-OUTPUT_PNG = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state/coor_0/trajectories_sample_0.png"  # None = show only
+INPUT_H5   = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g/coor_1/trajectories_sample_0.h5"
+OUTPUT_PNG = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g/coor_1/trajectories_sample_0.png"  # None = show only
 
 # ============================================================
 # Load
@@ -30,8 +30,8 @@ print(f"Time range: {time[0]:.3f}s - {time[-1]:.3f}s")
 
 # Slice 1.5s to 5.0s using exact frame indices at 29.97 Hz
 FPS       = 29.97
-T_START   = 0.5
-T_END     = 6.5
+T_START   = 0.0
+T_END     = 7.0
 start_idx = int(round(T_START * FPS))   # = frame 44
 end_idx   = int(round(T_END   * FPS))   # = frame 149
 time      = time[start_idx:end_idx] - time[start_idx]  # relative: starts at 0

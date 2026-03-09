@@ -46,7 +46,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 #  CONFIG  —  edit this block only
 # ══════════════════════════════════════════════════════════════════════════════
 
-BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_long"
+BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_20g"
 
 COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
 
@@ -63,7 +63,7 @@ ALL_SAMPLE_FILES = [
 ]
 
 T_START = 0.0           # time window start (seconds)
-T_END   = 5.0           # time window end   (seconds)
+T_END   = 3.0           # time window end   (seconds)
 
 CLASS_LABELS  = [1, 2, 3, 4]
 CLASS_NAMES   = ["coor_0", "coor_1", "coor_2", "coor_3"]
@@ -72,7 +72,7 @@ CLASS_TARGETS = np.array([[ 1.,  0.],
                            [-1.,  0.],
                            [ 0., -1.]], dtype=float)
 
-ACTIVE_CLASSES  = [1, 2, 3]   # subset of CLASS_LABELS to include
+ACTIVE_CLASSES  = [1, 2, 3, 4]   # subset of CLASS_LABELS to include
 EXCLUDE_MARKERS = []              # 0-based marker indices to drop from features
 
 OUTPUT_DIR = BASE_DIR

@@ -758,10 +758,10 @@ def main(SOURCE, HDF5_OUTPUT):
 
 
 if __name__ == "__main__":
-    samples = 8
+    samples = 20
     for sample_id in range(samples):
-        source = f"/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_long/coor_2/C1343_sample_{sample_id}.mp4"
+        source = f"/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_near/coor_1/C1360_sample_{sample_id}.mp4"
 
         # Output HDF5 file
-        hdf5_output = f"/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_long/coor_2/trajectories_sample_{sample_id}.h5"
+        hdf5_output = f"/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_near/coor_1/trajectories_sample_{sample_id}.h5"
         main(source, hdf5_output)

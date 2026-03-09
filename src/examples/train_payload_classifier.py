@@ -42,11 +42,12 @@ from sklearn.metrics import confusion_matrix, classification_report
 #  CONFIG  —  edit this block only
 # ══════════════════════════════════════════════════════════════════════════════
 
-BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_long"
+BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_near"
 
 COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
 
 TRAIN_FILES = [
+    "trajectories_sample_0.h5",
     "trajectories_sample_1.h5",
     "trajectories_sample_2.h5",
     "trajectories_sample_3.h5",
@@ -56,11 +57,22 @@ TRAIN_FILES = [
     "trajectories_sample_7.h5",
 ]
 TEST_FILES = [
-    "trajectories_sample_0.h5",
+    "trajectories_sample_8.h5",
+    "trajectories_sample_9.h5",
+    "trajectories_sample_10.h5",
+    "trajectories_sample_11.h5",
+    # "trajectories_sample_12.h5",
+    # "trajectories_sample_13.h5",
+    # "trajectories_sample_14.h5",
+    # "trajectories_sample_15.h5",
+    # "trajectories_sample_16.h5",
+    # "trajectories_sample_17.h5",
+    # "trajectories_sample_18.h5",
+    # "trajectories_sample_19.h5",
 ]
 
-T_START = 2.0           # time window start (seconds)
-T_END   = 5.0           # time window end   (seconds)
+T_START = 0.0           # time window start (seconds)
+T_END   = 3.0           # time window end   (seconds)
 
 CLASS_LABELS  = [1, 2, 3, 4]
 CLASS_NAMES   = ["coor_0", "coor_1", "coor_2", "coor_3"]
@@ -69,7 +81,7 @@ CLASS_TARGETS = np.array([[ 1.,  0.],
                            [-1.,  0.],
                            [ 0., -1.]], dtype=float)
 
-ACTIVE_CLASSES  = [1, 2, 3]    # subset of CLASS_LABELS to include
+ACTIVE_CLASSES  = [1, 2, 3, 4]    # subset of CLASS_LABELS to include
 EXCLUDE_MARKERS = []            # 0-based marker indices to drop from features
 
 OUTPUT_DIR = BASE_DIR
@@ -79,7 +91,7 @@ OUTPUT_DIR = BASE_DIR
 #  DATA LOADING & FEATURE EXTRACTION
 # ══════════════════════════════════════════════════════════════════════════════
 
-def load_h5(path: Path, baseline_frames: int = 10):
+def load_h5(path: Path, baseline_frames: int = 1):
     """Load HDF5 trajectory file → baseline-subtracted displacement (F, N, 2)."""
     with h5py.File(str(path), "r") as f:
         pos  = f["time_series/nodes/positions"][:]   # (F, N, 2)
@@ -107,7 +119,7 @@ def load_h5(path: Path, baseline_frames: int = 10):
 def extract_features(disp, time, t_start, t_end, exclude_markers):
     """Slice time window, flatten to (T, N*2), drop excluded marker columns."""
     i0 = int(np.searchsorted(time, t_start, side="left"))
-    i1 = int(np.searchsorted(time, t_end,   side="right")) if t_end else len(time)
+    i1 = int(np.searchsorted(time, t_end, side="right")) if t_end is not None else len(time)
     X  = disp[i0:i1].reshape(i1 - i0, -1)   # (T, N*2)
     ts = time[i0:i1] - time[i0]
     if exclude_markers:
@@ -487,24 +499,49 @@ def plot_pca(pca, mu, std, base, coor_dirs, class_labels, class_names,
       Panel 2 — PC1 vs PC2 scatter (train = filled, test = hollow)
     """
     COLORS = [PALETTE[i % len(PALETTE)] for i in range(len(class_labels))]
+    PCX = 0  
+    PCY = 2   
 
-    # Collect PCA projections
-    proj_train = {}
+        # Collect PCA projections from ALL training and test files
+    proj_train = {cdir: [] for cdir in coor_dirs}
     proj_test  = {cdir: [] for cdir in coor_dirs}
 
     for cdir in coor_dirs:
-        disp, time = load_h5(base / cdir / train_files[0])
-        X, _ = extract_features(disp, time, T_START, T_END, EXCLUDE_MARKERS)
-        proj_train[cdir] = pca.transform((X - mu) / std)
+        # --- training files ---
+        for fname in train_files:
+            p = base / cdir / fname
+            if not p.exists():
+                print(f"  [WARN] Missing train file for PCA: {p}")
+                continue
 
-    for cdir in coor_dirs:
+            disp, time = load_h5(p)
+            X, _ = extract_features(disp, time, T_START, T_END, EXCLUDE_MARKERS)
+            Z = pca.transform((X - mu) / std)
+            proj_train[cdir].append(Z)
+
+        # --- test files ---
         for fname in test_files:
             p = base / cdir / fname
             if not p.exists():
+                print(f"  [WARN] Missing test file for PCA: {p}")
                 continue
+
             disp, time = load_h5(p)
             X, _ = extract_features(disp, time, T_START, T_END, EXCLUDE_MARKERS)
-            proj_test[cdir].append(pca.transform((X - mu) / std))
+            Z = pca.transform((X - mu) / std)
+            proj_test[cdir].append(Z)
+
+    # Stack each class into one big cloud
+    for cdir in coor_dirs:
+        if proj_train[cdir]:
+            proj_train[cdir] = np.vstack(proj_train[cdir])
+        else:
+            proj_train[cdir] = np.empty((0, pca.n_components_))
+
+        if proj_test[cdir]:
+            proj_test[cdir] = np.vstack(proj_test[cdir])
+        else:
+            proj_test[cdir] = np.empty((0, pca.n_components_))
 
     k      = pca.n_components_
     cumvar = np.cumsum(pca.explained_variance_ratio_)
@@ -530,27 +567,37 @@ def plot_pca(pca, mu, std, base, coor_dirs, class_labels, class_names,
         ax1.set_ylim(0, 110)
         ax1.legend(fontsize=6)
 
-        # ── Panel 2: PC1 vs PC2 scatter ──────────────────────────────────────
+        # ── Panel 2: chosen PC scatter ───────────────────────────────────────
         for (cdir, cname), col in zip(zip(coor_dirs, class_names), COLORS):
-            Xp  = proj_train[cdir]
-            pc2 = Xp[:,1] if k > 1 else np.zeros(len(Xp))
-            ax2.scatter(Xp[:,0], pc2, c=col, s=4, alpha=0.7,
-                        label=f"{cname} train", linewidths=0)
-            for Xpt in proj_test[cdir]:
-                pc2t = Xpt[:,1] if k > 1 else np.zeros(len(Xpt))
-                ax2.scatter(Xpt[:,0], pc2t, facecolors="none",
-                            edgecolors=col, s=5, alpha=0.35, lw=0.6)
-            pool = np.vstack([Xp] + proj_test[cdir]) if proj_test[cdir] else Xp
-            ax2.text(pool[:,0].mean(),
-                     pool[:,1].mean() if k > 1 else 0,
-                     cname, fontsize=6, color=col, fontweight="bold",
-                     ha="center", va="center",
-                     bbox=dict(boxstyle="round,pad=0.15", fc="white",
-                               alpha=0.85, ec=col, lw=0.6))
-        ax2.set_xlabel(f"PC1  ({pca.explained_variance_ratio_[0]*100:.1f}%)")
-        ax2.set_ylabel(f"PC2  ({pca.explained_variance_ratio_[1]*100:.1f}%)"
-                       if k > 1 else "PC2 (n/a)")
-        ax2.set_title("PC1 vs PC2  (filled = train, hollow = test)",
+            Xp = proj_train[cdir]
+            Xt = proj_test[cdir]
+
+            if len(Xp) > 0:
+                pcy = Xp[:, PCY] if k > PCY else np.zeros(len(Xp))
+                ax2.scatter(Xp[:, PCX], pcy, c=col, s=4, alpha=0.7,
+                            label=f"{cname} train", linewidths=0)
+
+            if len(Xt) > 0:
+                pcyt = Xt[:, PCY] if k > PCY else np.zeros(len(Xt))
+                ax2.scatter(Xt[:, PCX], pcyt, facecolors="none",
+                            edgecolors=col, s=5, alpha=0.35, lw=0.6,
+                            label=f"{cname} test")
+
+            if len(Xp) > 0 or len(Xt) > 0:
+                pool = np.vstack([arr for arr in (Xp, Xt) if len(arr) > 0])
+                ax2.text(pool[:, PCX].mean(),
+                         (pool[:, PCY].mean() if k > PCY else 0),
+                         cname, fontsize=6, color=col, fontweight="bold",
+                         ha="center", va="center",
+                         bbox=dict(boxstyle="round,pad=0.15", fc="white",
+                                   alpha=0.85, ec=col, lw=0.6))
+
+        ax2.set_xlabel(f"PC{PCX+1}  ({pca.explained_variance_ratio_[PCX]*100:.1f}%)")
+        ax2.set_ylabel(
+            f"PC{PCY+1}  ({pca.explained_variance_ratio_[PCY]*100:.1f}%)"
+            if k > PCY else f"PC{PCY+1} (n/a)"
+        )
+        ax2.set_title(f"PC{PCX+1} vs PC{PCY+1}  (filled = train, hollow = test)",
                       fontweight="bold")
         ax2.legend(fontsize=5.5, markerscale=2, loc="best")
 
