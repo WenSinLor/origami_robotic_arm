@@ -1,22 +1,22 @@
 """
-Mixed-Source Payload Classifier — 2D OLS Regression
-====================================================
-Freely assign any samples from soft_state_100g and/or
-soft_state_100g_near to the training and test sets.
+Mixed-Source Payload Classifier — 2D OLS Regression (Per-Class Sample Control)
+===============================================================================
+Freely assign any samples from any directory to the training and test sets,
+with FULL INDEPENDENT CONTROL per coordinate class.
 
-Each sample is specified as a (directory, filename) pair,
-giving full flexibility over the train/test composition.
+Each class in TRAIN_SAMPLES and TEST_SAMPLES has its own list of
+(dir_key, filename) pairs — completely independent across classes.
 
 Pipeline
 --------
-1. Load HDF5 trajectories from specified directories → baseline-subtract → slice window.
+1. Load HDF5 trajectories per class from specified directories.
 2. Stack all (class × train_sample) blocks → z-score → fit OLS.
 3. Evaluate on train samples (sanity check) and test samples.
 4. Produce diagnostic figures.
 
 Usage
 -----
-    python mixed_source_classifier.py
+    python per_class_classifier.py
 """
 
 # ── Standard library ──────────────────────────────────────────────────────────
@@ -39,43 +39,90 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
 
-# Shorthand aliases for directories — use these keys in TRAIN_SAMPLES / TEST_SAMPLES
+# Directory aliases
 DIRS = {
-    "base" : f"{ROOT_DIR}/soft_state_40g",
-    # "near" : f"{ROOT_DIR}/soft_state_40g",
+    "base" : f"{ROOT_DIR}/mix_state_20g",
+    # "near" : f"{ROOT_DIR}/soft_state_100g_near",
 }
 
-# ── Define your train set here ────────────────────────────────────────────────
-# Each entry: ("dir_key", "filename")
-# Mix freely from any directory
-TRAIN_SAMPLES = [
-    ("base", "trajectories_sample_0.h5"),
-    ("base", "trajectories_sample_1.h5"),
-    ("base", "trajectories_sample_2.h5"),
-    ("base", "trajectories_sample_3.h5"),
-    ("base", "trajectories_sample_4.h5"),
-    ("base", "trajectories_sample_5.h5"),
-    ("base", "trajectories_sample_6.h5"),
-    ("base", "trajectories_sample_7.h5"),
-]
+# ── Train samples: fully independent per class ────────────────────────────────
+# Format: { "coor_name": [("dir_key", "filename"), ...], ... }
+TRAIN_SAMPLES = {
+    "coor_0": [
+        ("base", "trajectories_sample_0.h5"),
+        ("base", "trajectories_sample_1.h5"),
+        ("base", "trajectories_sample_2.h5"),
+        ("base", "trajectories_sample_3.h5"),
+        ("base", "trajectories_sample_4.h5"),
+        ("base", "trajectories_sample_5.h5"),
+        ("base", "trajectories_sample_6.h5"),
+        ("base", "trajectories_sample_7.h5"),
+    ],
+    "coor_1": [
+        ("base", "trajectories_sample_0.h5"),
+        ("base", "trajectories_sample_1.h5"),
+        ("base", "trajectories_sample_2.h5"),
+        ("base", "trajectories_sample_3.h5"),
+        ("base", "trajectories_sample_4.h5"),
+        ("base", "trajectories_sample_5.h5"),
+        ("base", "trajectories_sample_6.h5"),
+        ("base", "trajectories_sample_7.h5"),
+    ],
+    "coor_2": [
+        ("base", "trajectories_sample_0.h5"),
+        ("base", "trajectories_sample_1.h5"),
+        ("base", "trajectories_sample_2.h5"),
+        ("base", "trajectories_sample_3.h5"),
+        ("base", "trajectories_sample_4.h5"),
+        ("base", "trajectories_sample_5.h5"),
+        ("base", "trajectories_sample_6.h5"),
+        ("base", "trajectories_sample_7.h5"),
+    ],
+    "coor_3": [
+        ("base", "trajectories_sample_0.h5"),
+        ("base", "trajectories_sample_1.h5"),
+        ("base", "trajectories_sample_2.h5"),
+        ("base", "trajectories_sample_3.h5"),
+        ("base", "trajectories_sample_4.h5"),
+        ("base", "trajectories_sample_5.h5"),
+        ("base", "trajectories_sample_6.h5"),
+        ("base", "trajectories_sample_7.h5"),
+    ],
+}
 
-# ── Define your test set here ─────────────────────────────────────────────────
-TEST_SAMPLES = [
-    ("base", "trajectories_sample_8.h5"),
-    ("base", "trajectories_sample_9.h5"),
-    ("base", "trajectories_sample_10.h5"),
-    ("base", "trajectories_sample_11.h5"),
-    # ("base", "trajectories_sample_12.h5"),
-    # ("base", "trajectories_sample_13.h5"),
-    # ("base", "trajectories_sample_14.h5"),
-    # ("base", "trajectories_sample_15.h5"),
-]
+# ── Test samples: fully independent per class ─────────────────────────────────
+TEST_SAMPLES = {
+    "coor_0": [
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
+    ],
+    "coor_1": [
+        ("base", "trajectories_sample_8.h5"),   
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
+    ],
+    "coor_2": [
+        ("base", "trajectories_sample_12.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
+    ],
+    "coor_3": [
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
+    ],
+}
 
 # ── Everything else ───────────────────────────────────────────────────────────
-COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
+COOR_DIRS   = ["coor_0", "coor_1", "coor_2", "coor_3"]
 
 T_START = 0.0
-T_END   = 3.0
+T_END   = 1.0
 
 CLASS_LABELS  = [1, 2, 3, 4]
 CLASS_NAMES   = ["coor_0", "coor_1", "coor_2", "coor_3"]
@@ -87,7 +134,7 @@ CLASS_TARGETS = np.array([[ 1.,  0.],
 ACTIVE_CLASSES  = [1, 2, 3, 4]
 EXCLUDE_MARKERS = []
 
-OUTPUT_DIR = f"{ROOT_DIR}/soft_state_40g"
+OUTPUT_DIR = f"{ROOT_DIR}/mix_state_20g"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -95,13 +142,22 @@ OUTPUT_DIR = f"{ROOT_DIR}/soft_state_40g"
 # ══════════════════════════════════════════════════════════════════════════════
 
 def sample_label(dir_key, fname):
-    """Short human-readable label e.g. 'base/sample_3'."""
     return f"{dir_key}/{fname.replace('trajectories_','').replace('.h5','')}"
 
 
 def resolve(dir_key, coor_dir, fname):
-    """Resolve full path from dir key, coordinate subdir, and filename."""
     return Path(DIRS[dir_key]) / coor_dir / fname
+
+
+def summarise_samples(samples_dict):
+    """Print a neat per-class summary of sample sources."""
+    for cname, slist in samples_dict.items():
+        n_base = sum(1 for dk, _ in slist if dk == "base")
+        n_near = sum(1 for dk, _ in slist if dk == "near")
+        parts  = []
+        if n_base: parts.append(f"{n_base}×base")
+        if n_near: parts.append(f"{n_near}×near")
+        print(f"    {cname:8s}: {' + '.join(parts)}")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -156,22 +212,28 @@ def nearest_class(p_xy, targets, labels):
     return int(labels[np.argmin(np.linalg.norm(targets - p_xy, axis=1))])
 
 
-def fit_ols(coor_dirs, class_labels, class_targets, train_samples,
-            pca_variance=0.95):
+def fit_ols(coor_dirs, class_labels, class_names, class_targets,
+            train_samples_dict, pca_variance=0.95):
     """
-    Stack training data from all classes × train_samples (mixed sources).
-    train_samples: list of (dir_key, filename) tuples.
+    Stack training data per class using its own sample list.
+    train_samples_dict: { "coor_name": [(dir_key, fname), ...] }
     """
     Xb, Yb = [], []
     N = D = None
     ts_ref = None
 
     print("=" * 60)
-    print("  Building training matrix")
+    print("  Building training matrix (per-class samples)")
     print("=" * 60)
 
-    for label, cdir, tgt in zip(class_labels, coor_dirs, class_targets):
-        for dir_key, fname in train_samples:
+    for label, cdir, cname, tgt in zip(class_labels, coor_dirs,
+                                        class_names, class_targets):
+        sample_list = train_samples_dict.get(cname, [])
+        if not sample_list:
+            print(f"  [WARN] No training samples defined for {cname} — skipped")
+            continue
+
+        for dir_key, fname in sample_list:
             p = resolve(dir_key, cdir, fname)
             if not p.exists():
                 print(f"  [WARN] Missing: {p} — skipped")
@@ -185,7 +247,7 @@ def fit_ols(coor_dirs, class_labels, class_targets, train_samples,
             print(f"  + [{dir_key}] {cdir}/{fname}  label={label}  T={len(X)}")
 
     if not Xb:
-        raise RuntimeError("No training files found. Check TRAIN_SAMPLES and DIRS.")
+        raise RuntimeError("No training data found. Check TRAIN_SAMPLES and DIRS.")
 
     X_all = np.vstack(Xb)
     mu    = X_all.mean(axis=0)
@@ -207,10 +269,10 @@ def fit_ols(coor_dirs, class_labels, class_targets, train_samples,
 
 
 def run_inference(coor_dirs, class_labels, class_names, class_targets,
-                  samples, Wout, mu, std, label=""):
+                  samples_dict, Wout, mu, std, label=""):
     """
-    Run OLS inference.
-    samples: list of (dir_key, filename) tuples.
+    Run OLS inference using per-class sample lists.
+    samples_dict: { "coor_name": [(dir_key, fname), ...] }
     """
     results = []
     y_true, y_pred = [], []
@@ -219,8 +281,14 @@ def run_inference(coor_dirs, class_labels, class_names, class_targets,
     print(f"  Inference — {label}")
     print(f"{'=' * 60}")
 
-    for lab, cdir, cname, tgt in zip(class_labels, coor_dirs, class_names, class_targets):
-        for dir_key, fname in samples:
+    for lab, cdir, cname, tgt in zip(class_labels, coor_dirs,
+                                      class_names, class_targets):
+        sample_list = samples_dict.get(cname, [])
+        if not sample_list:
+            print(f"  [WARN] No samples defined for {cname} — skipped")
+            continue
+
+        for dir_key, fname in sample_list:
             p = resolve(dir_key, cdir, fname)
             if not p.exists():
                 print(f"  [WARN] Missing: {p} — skipped")
@@ -274,28 +342,28 @@ NATURE_RC = {
 PALETTE = ["#0072B2", "#E69F00", "#009E73", "#CC79A7",
            "#56B4E9", "#D55E00", "#F0E442", "#000000"]
 
-# Marker style per directory key so you can visually distinguish sources
-DIR_MARKERS = {
-    "base" : "o",
-    "near" : "s",   # square for near
-}
+DIR_MARKERS = {"base": "o", "near": "s"}
+DIR_BG      = {"base": "#EEF4FB", "near": "#FFF8EE"}
 
 
 def plot_staircase(results, class_labels, class_names,
-                   train_samples, test_samples,
-                   train_acc, test_acc, out_path):
+                   test_samples_dict, train_acc, test_acc, out_path):
     COL_TARGET = "#333333"
     COL_X      = "#0072B2"
     COL_Y      = "#E69F00"
     COL_OK     = "#009E73"
     COL_BAD    = "#D55E00"
 
-    # Order results to match test_samples list
-    test_labels = [sample_label(dk, fn) for dk, fn in test_samples]
-    ordered = [r for lab in class_labels
-                 for sl in test_labels
-                 for r in results
-                 if r["label"] == lab and r["sample"] == sl]
+    # Build ordered list: class order → then sample order within class
+    ordered = []
+    for lab, cname in zip(class_labels, class_names):
+        sample_list = test_samples_dict.get(cname, [])
+        for dir_key, fname in sample_list:
+            sl = sample_label(dir_key, fname)
+            for r in results:
+                if r["label"] == lab and r["sample"] == sl and r["dir_key"] == dir_key:
+                    ordered.append(r)
+                    break
 
     if not ordered:
         print("[WARN] No results to plot staircase.")
@@ -319,8 +387,7 @@ def plot_staircase(results, class_labels, class_names,
             sx = float(r["Y_hat"][:,0].std())
             sy = float(r["Y_hat"][:,1].std())
 
-            # Shade background by source directory
-            bg_col = "#EEF4FB" if r["dir_key"] == "base" else "#FFF8EE"
+            bg_col = DIR_BG.get(r["dir_key"], "#F5F5F5")
             for ax in (axx, axy):
                 ax.axvspan(ta[0], ta[-1], color=bg_col, alpha=0.5, zorder=0)
 
@@ -366,32 +433,34 @@ def plot_staircase(results, class_labels, class_names,
 
         axy.set_xlabel("Time (s)")
 
-        # Add source legend patches
         from matplotlib.patches import Patch
         extra_handles = [
-            Patch(facecolor="#EEF4FB", edgecolor="#AAAAAA", label="base"),
-            Patch(facecolor="#FFF8EE", edgecolor="#AAAAAA", label="near"),
+            Patch(facecolor=DIR_BG["base"], edgecolor="#AAAAAA", label="base"),
+            Patch(facecolor=DIR_BG["near"], edgecolor="#AAAAAA", label="near"),
         ]
+        base_handles, _ = axx.get_legend_handles_labels()
         axx.legend(loc="upper left", frameon=True, framealpha=0.9,
                    edgecolor="#DDDDDD", ncol=5,
-                   handles=axx.get_legend_handles_labels()[0] + extra_handles)
+                   handles=base_handles + extra_handles)
 
-        # Class labels on top axis
-        n_per = len([r for r in ordered if r["label"] == class_labels[0]])
+        # Class labels on top axis — use midpoint of each class's block
+        class_mids = []
+        idx = 0
+        for cname in class_names:
+            n = len(test_samples_dict.get(cname, []))
+            if n > 0:
+                class_mids.append(np.mean(sample_mids[idx:idx+n]))
+            idx += n
+
         ax_top = axx.secondary_xaxis("top")
-        if n_per > 0 and len(sample_mids) >= n_per * len(class_labels):
-            ax_top.set_xticks([sample_mids[i*n_per + n_per//2]
-                               for i in range(len(class_labels))])
-            ax_top.set_xticklabels(class_names, fontsize=7.5, fontweight="bold")
+        ax_top.set_xticks(class_mids)
+        ax_top.set_xticklabels(class_names, fontsize=7.5, fontweight="bold")
         ax_top.tick_params(length=0)
 
-        train_summary = ", ".join([sample_label(dk, fn) for dk, fn in train_samples])
-        test_summary  = ", ".join([sample_label(dk, fn) for dk, fn in test_samples])
         fig.suptitle(
-            f"Mixed-source 2D readout — "
-            f"train acc = {train_acc*100:.0f}%   test acc = {test_acc*100:.0f}%\n"
-            f"train: [{train_summary}]   test: [{test_summary}]",
-            fontsize=6.5, y=1.01)
+            f"Per-class mixed-source 2D readout — "
+            f"train acc = {train_acc*100:.0f}%   test acc = {test_acc*100:.0f}%",
+            fontsize=7, y=1.01)
 
         fig.savefig(str(out_path))
         plt.close(fig)
@@ -507,22 +576,22 @@ def plot_confusion_matrix(cm_raw, class_names, train_acc, test_acc, out_path):
 
 
 def plot_pca(pca, mu, std, coor_dirs, class_labels, class_names,
-             train_samples, test_samples, N, out_path):
+             train_samples_dict, test_samples_dict, N, out_path):
     COLORS = [PALETTE[i % len(PALETTE)] for i in range(len(class_labels))]
     PCX, PCY = 0, 2
 
     proj_train = {cdir: [] for cdir in coor_dirs}
     proj_test  = {cdir: [] for cdir in coor_dirs}
 
-    for cdir in coor_dirs:
-        for dir_key, fname in train_samples:
+    for cdir, cname in zip(coor_dirs, class_names):
+        for dir_key, fname in train_samples_dict.get(cname, []):
             p = resolve(dir_key, cdir, fname)
             if not p.exists(): continue
             disp, time = load_h5(p)
             X, _ = extract_features(disp, time, T_START, T_END, EXCLUDE_MARKERS)
             proj_train[cdir].append(pca.transform((X - mu) / std))
 
-        for dir_key, fname in test_samples:
+        for dir_key, fname in test_samples_dict.get(cname, []):
             p = resolve(dir_key, cdir, fname)
             if not p.exists(): continue
             disp, time = load_h5(p)
@@ -575,22 +644,15 @@ def plot_pca(pca, mu, std, coor_dirs, class_labels, class_names,
                          bbox=dict(boxstyle="round,pad=0.15", fc="white",
                                    alpha=0.85, ec=col, lw=0.6))
 
-        n_base_train = sum(1 for dk, _ in train_samples if dk == "base")
-        n_near_train = sum(1 for dk, _ in train_samples if dk == "near")
         ax2.set_xlabel(f"PC{PCX+1}  ({pca.explained_variance_ratio_[PCX]*100:.1f}%)")
         ax2.set_ylabel(f"PC{PCY+1}  ({pca.explained_variance_ratio_[PCY]*100:.1f}%)"
                        if k > PCY else f"PC{PCY+1} (n/a)")
         ax2.set_title(f"PC{PCX+1} vs PC{PCY+1}  (filled=train, hollow=test)",
                       fontweight="bold")
         ax2.legend(fontsize=5.5, markerscale=2, loc="best")
-
         fig.suptitle(
-            f"PCA diagnostic  |  {k} components  |  {N} markers × 2 = {N*2} features\n"
-            f"train: {n_base_train}×base + {n_near_train}×near  |  "
-            f"test: {sum(1 for dk,_ in test_samples if dk=='base')}×base + "
-            f"{sum(1 for dk,_ in test_samples if dk=='near')}×near",
+            f"PCA diagnostic  |  {k} components  |  {N} markers × 2 = {N*2} features",
             fontsize=7, fontweight="bold", y=1.02)
-
         fig.savefig(str(out_path))
         plt.close(fig)
     print(f"  Saved → {out_path}")
@@ -604,29 +666,24 @@ def main():
     out_dir = Path(OUTPUT_DIR)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Filter to active classes
     idx           = [i for i, l in enumerate(CLASS_LABELS) if l in ACTIVE_CLASSES]
     coor_dirs     = [COOR_DIRS[i]    for i in idx]
     class_labels  = [CLASS_LABELS[i] for i in idx]
     class_names   = [CLASS_NAMES[i]  for i in idx]
     class_targets = CLASS_TARGETS[idx]
 
-    n_base_train = sum(1 for dk, _ in TRAIN_SAMPLES if dk == "base")
-    n_near_train = sum(1 for dk, _ in TRAIN_SAMPLES if dk == "near")
-    n_base_test  = sum(1 for dk, _ in TEST_SAMPLES  if dk == "base")
-    n_near_test  = sum(1 for dk, _ in TEST_SAMPLES  if dk == "near")
-
     print(f"\n{'═'*60}")
-    print(f"  Mixed-Source Payload Classifier — 2D OLS")
+    print(f"  Per-Class Mixed-Source Payload Classifier — 2D OLS")
     print(f"{'═'*60}")
-    print(f"  Train : {n_base_train}×base + {n_near_train}×near = {len(TRAIN_SAMPLES)} samples")
-    print(f"  Test  : {n_base_test}×base  + {n_near_test}×near  = {len(TEST_SAMPLES)} samples")
-    print(f"  Classes     : {class_names}")
+    print(f"  Train samples per class:")
+    summarise_samples({k: v for k, v in TRAIN_SAMPLES.items() if k in class_names})
+    print(f"  Test samples per class:")
+    summarise_samples({k: v for k, v in TEST_SAMPLES.items()  if k in class_names})
     print(f"  Time window : {T_START}–{T_END} s\n")
 
-    # 1. Fit OLS on mixed training set
+    # 1. Fit OLS
     Wout, pca, mu, std, N, D, _ = fit_ols(
-        coor_dirs, class_labels, class_targets, TRAIN_SAMPLES)
+        coor_dirs, class_labels, class_names, class_targets, TRAIN_SAMPLES)
 
     # 2. Sanity check on train set
     _, tr_true, tr_pred = run_inference(
@@ -653,19 +710,19 @@ def main():
     cm = confusion_matrix(te_true, te_pred, labels=class_labels)
 
     plot_staircase(results, class_labels, class_names,
-                   TRAIN_SAMPLES, TEST_SAMPLES, train_acc, test_acc,
-                   out_dir / "mixed_staircase.png")
+                   TEST_SAMPLES, train_acc, test_acc,
+                   out_dir / "perclass_staircase.png")
 
     plot_polar(results, class_labels, class_names, class_targets,
                train_acc, test_acc,
-               out_dir / "mixed_polar.png")
+               out_dir / "perclass_polar.png")
 
     plot_confusion_matrix(cm, class_names, train_acc, test_acc,
-                          out_dir / "mixed_confusion_matrix.png")
+                          out_dir / "perclass_confusion_matrix.png")
 
     plot_pca(pca, mu, std, coor_dirs, class_labels, class_names,
              TRAIN_SAMPLES, TEST_SAMPLES, N,
-             out_dir / "mixed_pca.png")
+             out_dir / "perclass_pca.png")
 
     print(f"\n  Done.  Outputs → {out_dir.resolve()}")
 

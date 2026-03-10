@@ -46,7 +46,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 #  CONFIG  —  edit this block only
 # ══════════════════════════════════════════════════════════════════════════════
 
-BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_40g"
+BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_20g"
 
 COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
 
@@ -60,6 +60,10 @@ ALL_SAMPLE_FILES = [
     "trajectories_sample_5.h5",
     "trajectories_sample_6.h5",
     "trajectories_sample_7.h5",
+    # "trajectories_sample_8.h5",
+    # "trajectories_sample_9.h5",
+    # "trajectories_sample_10.h5",
+    # "trajectories_sample_11.h5",
 ]
 
 T_START = 0.0           # time window start (seconds)

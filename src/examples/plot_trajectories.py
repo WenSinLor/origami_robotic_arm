@@ -9,8 +9,8 @@ import os
 # CONFIGURATION — edit these paths
 # ============================================================
 
-INPUT_H5   = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g/coor_1/trajectories_sample_0.h5"
-OUTPUT_PNG = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g/coor_1/trajectories_sample_0.png"  # None = show only
+INPUT_H5   = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/mix_state_20g/coor_0/trajectories_sample_0.h5"
+OUTPUT_PNG = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/mix_state_20g/coor_0/trajectories_sample_0.png"  # None = show only
 
 # ============================================================
 # Load
