@@ -656,7 +656,7 @@ class RedMarkerTracker:
 #  Entry point
 # ─────────────────────────────────────────────
 
-def main(SOURCE, HDF5_OUTPUT):
+def main(SOURCE, HDF5_OUTPUT=None):
     cap = cv2.VideoCapture(SOURCE)
     if not cap.isOpened():
         print(f"[ERROR] Cannot open source: {SOURCE}")
@@ -760,8 +760,8 @@ def main(SOURCE, HDF5_OUTPUT):
 if __name__ == "__main__":
     samples = 12
     for sample_id in range(samples):
-        source = f"/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/stiff_state_20g/coor_3/C1389_sample_{sample_id}.mp4"
+        source = f"/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g/coor_0/C1355_sample_{sample_id}.mp4"
 
         # Output HDF5 file
-        hdf5_output = f"/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/stiff_state_20g/coor_3/trajectories_sample_{sample_id}.h5"
-        main(source, hdf5_output)
+        hdf5_output = f"/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g/coor_0/trajectories_sample_{sample_id}.h5"
+        main(source)
