@@ -40,8 +40,8 @@ from scipy import stats as scipy_stats
 ROOT = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
 
 CONFIGS = {
-    "Soft (100g)":  f"{ROOT}/soft_state_100g",   # ← update path as needed
-    "Stiff (100g)":  f"{ROOT}/stiff_state_100g",   # ← update path as needed
+    "Stiff (20g)":  f"{ROOT}/stiff_state_20g",   # ← update path as needed
+    "Mix (20g)":  f"{ROOT}/mix_state_20g_right",   # ← update path as needed
 }
 
 COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
@@ -78,7 +78,7 @@ N_PERMUTATIONS = 10000
 N_BOOTSTRAP    = 10000
 ALPHA          = 0.05        # significance threshold
 
-OUTPUT_DIR = f"{ROOT}/soft_state_100g"
+OUTPUT_DIR = f"{ROOT}/mix_state_20g_right"
 
 PALETTE = ["#0072B2", "#E69F00", "#009E73", "#CC79A7"]
 

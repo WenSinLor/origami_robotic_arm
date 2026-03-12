@@ -51,7 +51,7 @@ TRAIN_SAMPLES = [
 ]
 
 TEST_SAMPLES = [
-    ("base", "trajectories_sample_8.h5"),
+    ("base", "trajectories_sample_7.h5"),
 ]
 
 T_START        = 0.0

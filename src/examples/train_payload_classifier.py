@@ -41,8 +41,8 @@ ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
 
 # Directory aliases
 DIRS = {
-    "base" : f"{ROOT_DIR}/soft_state_100g",
-    "near" : f"{ROOT_DIR}/soft_state_100g_near",
+    "base" : f"{ROOT_DIR}/mix_state_20g_right",
+    # "near" : f"{ROOT_DIR}/soft_state_100g_near",
 }
 
 # ── Train samples: fully independent per class ────────────────────────────────
@@ -53,30 +53,30 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_1.h5"),
         ("base", "trajectories_sample_2.h5"),
         ("base", "trajectories_sample_3.h5"),
-        ("near", "trajectories_sample_4.h5"),
-        ("near", "trajectories_sample_5.h5"),
-        ("near", "trajectories_sample_6.h5"),
-        ("near", "trajectories_sample_7.h5"),
+        ("base", "trajectories_sample_4.h5"),
+        ("base", "trajectories_sample_5.h5"),
+        ("base", "trajectories_sample_6.h5"),
+        ("base", "trajectories_sample_7.h5"),
     ],
     "coor_1": [
         ("base", "trajectories_sample_0.h5"),
         ("base", "trajectories_sample_1.h5"),
         ("base", "trajectories_sample_2.h5"),
         ("base", "trajectories_sample_3.h5"),
-        ("near", "trajectories_sample_4.h5"),
-        ("near", "trajectories_sample_5.h5"),
-        ("near", "trajectories_sample_6.h5"),
-        ("near", "trajectories_sample_7.h5"),
+        ("base", "trajectories_sample_4.h5"),
+        ("base", "trajectories_sample_5.h5"),
+        ("base", "trajectories_sample_6.h5"),
+        ("base", "trajectories_sample_7.h5"),
     ],
     "coor_2": [
         ("base", "trajectories_sample_0.h5"),
         ("base", "trajectories_sample_1.h5"),
         ("base", "trajectories_sample_2.h5"),
         ("base", "trajectories_sample_3.h5"),
-        ("near", "trajectories_sample_4.h5"),
-        ("near", "trajectories_sample_5.h5"),
-        ("near", "trajectories_sample_6.h5"),
-        ("near", "trajectories_sample_7.h5"),
+        ("base", "trajectories_sample_4.h5"),
+        ("base", "trajectories_sample_5.h5"),
+        ("base", "trajectories_sample_6.h5"),
+        ("base", "trajectories_sample_7.h5"),
     ],
     "coor_3": [
         ("base", "trajectories_sample_0.h5"),
@@ -93,28 +93,28 @@ TRAIN_SAMPLES = {
 # ── Test samples: fully independent per class ─────────────────────────────────
 TEST_SAMPLES = {
     "coor_0": [
-        ("near", "trajectories_sample_8.h5"),
-        ("near", "trajectories_sample_9.h5"),
-        ("near", "trajectories_sample_10.h5"),
-        ("near", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
     ],
     "coor_1": [
-        ("near", "trajectories_sample_8.h5"),   
-        ("near", "trajectories_sample_9.h5"),
-        ("near", "trajectories_sample_10.h5"),
-        ("near", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_8.h5"),   
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
     ],
     "coor_2": [
-        ("near", "trajectories_sample_8.h5"),
-        ("near", "trajectories_sample_9.h5"),
-        ("near", "trajectories_sample_10.h5"),
-        ("near", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
     ],
     "coor_3": [
-        ("near", "trajectories_sample_8.h5"),
-        ("near", "trajectories_sample_9.h5"),
-        ("near", "trajectories_sample_10.h5"),
-        ("near", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
     ],
 }
 
@@ -122,7 +122,7 @@ TEST_SAMPLES = {
 COOR_DIRS   = ["coor_0", "coor_1", "coor_2", "coor_3"]
 
 T_START = 0.0
-T_END   = 1.0
+T_END   = 3.0
 
 CLASS_LABELS  = [1, 2, 3, 4]
 CLASS_NAMES   = ["coor_0", "coor_1", "coor_2", "coor_3"]
@@ -134,7 +134,7 @@ CLASS_TARGETS = np.array([[ 1.,  0.],
 ACTIVE_CLASSES  = [1, 2, 3, 4]
 EXCLUDE_MARKERS = []
 
-OUTPUT_DIR = f"{ROOT_DIR}/soft_state_100g"
+OUTPUT_DIR = f"{ROOT_DIR}/mix_state_20g_right"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -578,7 +578,7 @@ def plot_confusion_matrix(cm_raw, class_names, train_acc, test_acc, out_path):
 def plot_pca(pca, mu, std, coor_dirs, class_labels, class_names,
              train_samples_dict, test_samples_dict, N, out_path):
     COLORS = [PALETTE[i % len(PALETTE)] for i in range(len(class_labels))]
-    PCX, PCY = 0, 2
+    PCX, PCY = 0, 1
 
     proj_train = {cdir: [] for cdir in coor_dirs}
     proj_test  = {cdir: [] for cdir in coor_dirs}
