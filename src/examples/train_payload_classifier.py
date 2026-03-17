@@ -41,7 +41,7 @@ ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
 
 # Directory aliases
 DIRS = {
-    "base" : f"{ROOT_DIR}/mix_state_20g_right",
+    "base" : f"{ROOT_DIR}/soft_state_20g",
     # "near" : f"{ROOT_DIR}/soft_state_100g_near",
 }
 
@@ -134,7 +134,7 @@ CLASS_TARGETS = np.array([[ 1.,  0.],
 ACTIVE_CLASSES  = [1, 2, 3, 4]
 EXCLUDE_MARKERS = []
 
-OUTPUT_DIR = f"{ROOT_DIR}/mix_state_20g_right"
+OUTPUT_DIR = f"{ROOT_DIR}/soft_state_20g"
 
 
 # ══════════════════════════════════════════════════════════════════════════════

@@ -46,7 +46,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 #  CONFIG  —  edit this block only
 # ══════════════════════════════════════════════════════════════════════════════
 
-BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/mix_state_20g_right"
+BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/stiff_state_20g"
 
 COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
 

@@ -41,7 +41,7 @@ TARGET_MARKER_IDS = [4, 9, 13, 18]
 
 TRAIN_SAMPLES = [
     ("base", "trajectories_sample_0.h5"),
-    ("base", "trajectories_sample_1.h5"),
+    ("base", "trajectories_sample_2.h5"),
     # ("base", "trajectories_sample_2.h5"),
     # ("base", "trajectories_sample_3.h5"),
     # ("base", "trajectories_sample_4.h5"),
@@ -51,7 +51,7 @@ TRAIN_SAMPLES = [
 ]
 
 TEST_SAMPLES = [
-    ("base", "trajectories_sample_7.h5"),
+    ("base", "trajectories_sample_3.h5"),
 ]
 
 T_START        = 0.0
