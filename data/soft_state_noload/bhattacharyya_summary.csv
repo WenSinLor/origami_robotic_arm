@@ -1,0 +1,8 @@
+condition,B_agg,error_bound,predicted_acc_lb,actual_acc,bound_holds
+soft_20g,6.4513,0.0008,0.9992,0.7500,False
+soft_40g,11.3925,0.0000,1.0000,0.9690,False
+soft_100g,17.0719,0.0000,1.0000,0.9690,False
+stiff_100g,51.9096,0.0000,1.0000,0.8750,False
+stiff_20g,19.1274,0.0000,1.0000,0.6000,False
+mix_20g,232.5934,0.0000,1.0000,0.7190,False
+soft_100g_near,5.0031,0.0034,0.9966,0.9690,False

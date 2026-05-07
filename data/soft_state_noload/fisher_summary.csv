@@ -1,0 +1,5 @@
+condition,mass_kg,fisher_Fs,pred_accuracy_bound,actual_loo_cv_accuracy
+sigma2_estimate,158.18515332625694,,,
+20g,0.02,35830432.8137,1.0000,0.7500
+40g,0.04,22603461.8197,1.0000,0.9690
+100g,0.1,1780828.3475,1.0000,0.9690

@@ -1,0 +1,30 @@
+{
+  "n_pairs_total": 48,
+  "n_pairs_trusted": 17,
+  "thresholds": {
+    "MIN_R2": 0.75,
+    "MAX_NRMSE": 0.45
+  },
+  "all_pairs": {
+    "amp_ratio_mean": 1.116859067475483,
+    "freq_ratio_mean": 1.4028101184548898,
+    "damp_ratio_mean": 0.7760158682003198,
+    "phase_ratio_mean": 1.9620218374483107,
+    "mean_abs_dom_freq_shift_hz": 0.5036044194579151,
+    "mean_abs_dom_sigma_shift": 0.553226525103962,
+    "mean_abs_dom_phase_shift": 1.3554047669052274,
+    "mean_ref_r2": 0.7438629478805193,
+    "mean_cmp_r2": 0.5482042506451555
+  },
+  "trusted_only": {
+    "amp_ratio_mean": 1.1841081050990803,
+    "freq_ratio_mean": 0.7963149552851256,
+    "damp_ratio_mean": 0.4547954965523233,
+    "phase_ratio_mean": 1.4437079127975652,
+    "mean_abs_dom_freq_shift_hz": 0.14226999628095366,
+    "mean_abs_dom_sigma_shift": 0.41421375223451734,
+    "mean_abs_dom_phase_shift": 1.5188962059416216,
+    "mean_ref_r2": 0.9277046257754722,
+    "mean_cmp_r2": 0.9066724885966392
+  }
+}

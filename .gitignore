@@ -2,7 +2,7 @@
 venv/
 
 # Experimental data
-data/
+*.mp4
 
 # CAD models
 cad/
