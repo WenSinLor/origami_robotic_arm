@@ -41,8 +41,8 @@ ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
 
 # Directory aliases
 DIRS = {
-    "base" : f"{ROOT_DIR}/soft_state_20g",
-    # "near" : f"{ROOT_DIR}/soft_state_100g_near",
+    "base" : f"{ROOT_DIR}/soft_state_100g_bending_sensor",
+    "near" : f"{ROOT_DIR}/soft_state_100g_near_bending_sensor",
 }
 
 # ── Train samples: fully independent per class ────────────────────────────────
@@ -56,7 +56,14 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_4.h5"),
         ("base", "trajectories_sample_5.h5"),
         ("base", "trajectories_sample_6.h5"),
-        ("base", "trajectories_sample_7.h5"),
+        ("near", "trajectories_sample_7.h5"),
+        ("near", "trajectories_sample_8.h5"),
+        ("near", "trajectories_sample_9.h5"),
+        ("near", "trajectories_sample_10.h5"),
+        ("near", "trajectories_sample_11.h5"),
+        ("near", "trajectories_sample_12.h5"),
+        ("near", "trajectories_sample_13.h5"),
+
     ],
     "coor_1": [
         ("base", "trajectories_sample_0.h5"),
@@ -67,6 +74,12 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_5.h5"),
         ("base", "trajectories_sample_6.h5"),
         ("base", "trajectories_sample_7.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_12.h5"),
+        ("base", "trajectories_sample_13.h5"),
     ],
     "coor_2": [
         ("base", "trajectories_sample_0.h5"),
@@ -77,6 +90,12 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_5.h5"),
         ("base", "trajectories_sample_6.h5"),
         ("base", "trajectories_sample_7.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_12.h5"),
+        ("base", "trajectories_sample_13.h5"),
     ],
     "coor_3": [
         ("base", "trajectories_sample_0.h5"),
@@ -87,34 +106,68 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_5.h5"),
         ("base", "trajectories_sample_6.h5"),
         ("base", "trajectories_sample_7.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_12.h5"),
+        ("base", "trajectories_sample_13.h5"),
     ],
 }
 
 # ── Test samples: fully independent per class ─────────────────────────────────
 TEST_SAMPLES = {
     "coor_0": [
-        ("base", "trajectories_sample_8.h5"),
-        ("base", "trajectories_sample_9.h5"),
-        ("base", "trajectories_sample_10.h5"),
-        ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_9.h5"),
+        # ("base", "trajectories_sample_10.h5"),
+        # ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_12.h5"),
+        # ("base", "trajectories_sample_13.h5"),
+        ("near", "trajectories_sample_14.h5"),
+        ("near", "trajectories_sample_15.h5"),
+        ("near", "trajectories_sample_16.h5"),
+        ("near", "trajectories_sample_17.h5"),
+        ("near", "trajectories_sample_18.h5"),
+        ("near", "trajectories_sample_19.h5"),
     ],
     "coor_1": [
-        ("base", "trajectories_sample_8.h5"),   
-        ("base", "trajectories_sample_9.h5"),
-        ("base", "trajectories_sample_10.h5"),
-        ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_9.h5"),
+        # ("base", "trajectories_sample_10.h5"),
+        # ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_12.h5"),
+        # ("base", "trajectories_sample_13.h5"),
+        ("near", "trajectories_sample_14.h5"),
+        ("near", "trajectories_sample_15.h5"),
+        ("near", "trajectories_sample_16.h5"),
+        ("near", "trajectories_sample_17.h5"),
+        ("near", "trajectories_sample_18.h5"),
+        ("near", "trajectories_sample_19.h5"),
     ],
     "coor_2": [
-        ("base", "trajectories_sample_8.h5"),
-        ("base", "trajectories_sample_9.h5"),
-        ("base", "trajectories_sample_10.h5"),
-        ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_9.h5"),
+        # ("base", "trajectories_sample_10.h5"),
+        # ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_12.h5"),
+        # ("base", "trajectories_sample_13.h5"),
+        ("near", "trajectories_sample_14.h5"),
+        ("near", "trajectories_sample_15.h5"),
+        ("near", "trajectories_sample_16.h5"),
+        ("near", "trajectories_sample_17.h5"),
+        ("near", "trajectories_sample_18.h5"),
+        ("near", "trajectories_sample_19.h5"),
     ],
     "coor_3": [
-        ("base", "trajectories_sample_8.h5"),
-        ("base", "trajectories_sample_9.h5"),
-        ("base", "trajectories_sample_10.h5"),
-        ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_9.h5"),
+        # ("base", "trajectories_sample_10.h5"),
+        # ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_12.h5"),
+        # ("base", "trajectories_sample_13.h5"),
+        ("near", "trajectories_sample_14.h5"),
+        ("near", "trajectories_sample_15.h5"),
+        ("near", "trajectories_sample_16.h5"),
+        ("near", "trajectories_sample_17.h5"),
+        ("near", "trajectories_sample_18.h5"),
+        ("near", "trajectories_sample_19.h5"),
     ],
 }
 
@@ -134,7 +187,7 @@ CLASS_TARGETS = np.array([[ 1.,  0.],
 ACTIVE_CLASSES  = [1, 2, 3, 4]
 EXCLUDE_MARKERS = []
 
-OUTPUT_DIR = f"{ROOT_DIR}/soft_state_20g"
+OUTPUT_DIR = f"{ROOT_DIR}/soft_state_100g_near_bending_sensor"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -169,8 +222,10 @@ def load_h5(path: Path, baseline_frames: int = 1):
         pos  = f["time_series/nodes/positions"][:]
         time = f["time_series/time"][:]
 
+    coord_dim = pos.shape[2]
+
     for n in range(pos.shape[1]):
-        for ax in range(2):
+        for ax in range(coord_dim):
             col = pos[:, n, ax]
             nan_mask = np.isnan(col)
             if nan_mask.all():
@@ -190,13 +245,19 @@ def load_h5(path: Path, baseline_frames: int = 1):
 def extract_features(disp, time, t_start, t_end, exclude_markers):
     i0 = int(np.searchsorted(time, t_start, side="left"))
     i1 = int(np.searchsorted(time, t_end, side="right")) if t_end is not None else len(time)
-    X  = disp[i0:i1].reshape(i1 - i0, -1)
+
+    X = disp[i0:i1].reshape(i1 - i0, -1)
     ts = time[i0:i1] - time[i0]
+
     if exclude_markers:
-        N    = X.shape[1] // 2
-        keep = [c for n in range(N) if n not in exclude_markers
-                for c in (2*n, 2*n+1)]
-        X    = X[:, keep]
+        coord_dim = disp.shape[2]
+        n_markers = disp.shape[1]
+        keep = [coord_dim*n + d
+                for n in range(n_markers)
+                if n not in exclude_markers
+                for d in range(coord_dim)]
+        X = X[:, keep]
+
     return X, ts
 
 
@@ -241,7 +302,8 @@ def fit_ols(coor_dirs, class_labels, class_names, class_targets,
             disp, time = load_h5(p)
             X, ts = extract_features(disp, time, T_START, T_END, EXCLUDE_MARKERS)
             if D is None:
-                D, N, ts_ref = X.shape[1], X.shape[1] // 2, ts
+                coord_dim = disp.shape[2]
+                D, N, ts_ref = X.shape[1], X.shape[1] // coord_dim, ts
             Xb.append(X)
             Yb.append(np.tile(tgt, (len(X), 1)))
             print(f"  + [{dir_key}] {cdir}/{fname}  label={label}  T={len(X)}")

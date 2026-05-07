@@ -46,7 +46,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 #  CONFIG  —  edit this block only
 # ══════════════════════════════════════════════════════════════════════════════
 
-BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/stiff_state_20g"
+BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_bending_sensor"
 
 COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
 
@@ -60,18 +60,18 @@ ALL_SAMPLE_FILES = [
     "trajectories_sample_5.h5",
     "trajectories_sample_6.h5",
     "trajectories_sample_7.h5",
-    # "trajectories_sample_8.h5",
-    # "trajectories_sample_9.h5",
-    # "trajectories_sample_10.h5",
-    # "trajectories_sample_11.h5",
-    # "trajectories_sample_12.h5",
-    # "trajectories_sample_13.h5",
-    # "trajectories_sample_14.h5",
-    # "trajectories_sample_15.h5",
-    # "trajectories_sample_16.h5",
-    # "trajectories_sample_17.h5",
-    # "trajectories_sample_18.h5",
-    # "trajectories_sample_19.h5",
+    "trajectories_sample_8.h5",
+    "trajectories_sample_9.h5",
+    "trajectories_sample_10.h5",
+    "trajectories_sample_11.h5",
+    "trajectories_sample_12.h5",
+    "trajectories_sample_13.h5",
+    "trajectories_sample_14.h5",
+    "trajectories_sample_15.h5",
+    "trajectories_sample_16.h5",
+    "trajectories_sample_17.h5",
+    "trajectories_sample_18.h5",
+    "trajectories_sample_19.h5",
 ]
 
 T_START = 0.0           # time window start (seconds)
@@ -94,15 +94,15 @@ OUTPUT_DIR = BASE_DIR
 #  DATA LOADING & FEATURE EXTRACTION
 # ══════════════════════════════════════════════════════════════════════════════
 
-def load_h5(path: Path, baseline_frames: int = 10):
-    """Load HDF5 trajectory file → baseline-subtracted displacement (F, N, 2)."""
+def load_h5(path: Path, baseline_frames: int = 1):
     with h5py.File(str(path), "r") as f:
-        pos  = f["time_series/nodes/positions"][:]   # (F, N, 2)
-        time = f["time_series/time"][:]              # (F,)
+        pos  = f["time_series/nodes/positions"][:]
+        time = f["time_series/time"][:]
 
-    # Forward-fill NaN values per marker per axis
+    coord_dim = pos.shape[2]
+
     for n in range(pos.shape[1]):
-        for ax in range(2):
+        for ax in range(coord_dim):
             col = pos[:, n, ax]
             nan_mask = np.isnan(col)
             if nan_mask.all():
@@ -125,10 +125,13 @@ def extract_features(disp, time, t_start, t_end, exclude_markers):
     i1 = int(np.searchsorted(time, t_end,   side="right")) if t_end else len(time)
     X  = disp[i0:i1].reshape(i1 - i0, -1)   # (T, N*2)
     if exclude_markers:
-        N    = X.shape[1] // 2
-        keep = [c for n in range(N) if n not in exclude_markers
-                for c in (2*n, 2*n+1)]
-        X    = X[:, keep]
+        coord_dim = disp.shape[2]
+        n_markers = disp.shape[1]
+        keep = [coord_dim*n + d
+                for n in range(n_markers)
+                if n not in exclude_markers
+                for d in range(coord_dim)]
+        X = X[:, keep]
     return X
 
 
