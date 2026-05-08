@@ -21,8 +21,8 @@ Unlike the combinatorial sweep (train_payload_cv_sweep.py), LOO-CV produces:
 
 Outputs
 -------
-    loo_confusion_matrix.png  — counts + normalised recall
-    loo_per_sample.png        — per-fold accuracy bar chart (which sample was hard?)
+    loo_confusion_matrix.pdf  — counts + normalised recall
+    loo_per_sample.pdf        — per-fold accuracy bar chart (which sample was hard?)
 
 Usage
 -----
@@ -46,7 +46,8 @@ from sklearn.metrics import confusion_matrix, classification_report
 #  CONFIG  —  edit this block only
 # ══════════════════════════════════════════════════════════════════════════════
 
-BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_bending_sensor"
+# BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_bending_sensor"
+BASE_DIR = "/home/wensin/Documents/origami_robotic_arm/data/soft_state_100g"
 
 COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
 
@@ -60,18 +61,18 @@ ALL_SAMPLE_FILES = [
     "trajectories_sample_5.h5",
     "trajectories_sample_6.h5",
     "trajectories_sample_7.h5",
-    "trajectories_sample_8.h5",
-    "trajectories_sample_9.h5",
-    "trajectories_sample_10.h5",
-    "trajectories_sample_11.h5",
-    "trajectories_sample_12.h5",
-    "trajectories_sample_13.h5",
-    "trajectories_sample_14.h5",
-    "trajectories_sample_15.h5",
-    "trajectories_sample_16.h5",
-    "trajectories_sample_17.h5",
-    "trajectories_sample_18.h5",
-    "trajectories_sample_19.h5",
+    # "trajectories_sample_8.h5",
+    # "trajectories_sample_9.h5",
+    # "trajectories_sample_10.h5",
+    # "trajectories_sample_11.h5",
+    # "trajectories_sample_12.h5",
+    # "trajectories_sample_13.h5",
+    # "trajectories_sample_14.h5",
+    # "trajectories_sample_15.h5",
+    # "trajectories_sample_16.h5",
+    # "trajectories_sample_17.h5",
+    # "trajectories_sample_18.h5",
+    # "trajectories_sample_19.h5",
 ]
 
 T_START = 0.0           # time window start (seconds)
@@ -257,21 +258,44 @@ def run_loo(base, coor_dirs, class_labels, class_names, class_targets,
 #  FIGURES  —  Nature-journal style
 # ══════════════════════════════════════════════════════════════════════════════
 
-# Shared rcParams for publication-quality output
+# Shared rcParams for VT-style publication output.
+VT_MAROON = "#861F41"
+VT_ORANGE = "#E5751F"
+VT_STONE = "#75787B"
+VT_DARK_STONE = "#54585A"
+VT_LIGHT_STONE = "#D7D2CB"
+VT_PALE_MAROON = "#F2E8ED"
+VT_PALE_ORANGE = "#FBE9DC"
+
+PLOT_FONT_SIZES = {
+    "base": 9,
+    "axis_label": 9,
+    "tick": 8,
+    "legend": 7.5,
+    "title": 10,
+    "panel_title": 9,
+    "suptitle": 10,
+    "annotation": 7,
+    "matrix_cell": 8,
+    "colorbar_label": 8,
+    "colorbar_tick": 7,
+}
+
 NATURE_RC = {
-    "font.family":        "sans-serif",
-    "font.sans-serif":    ["Helvetica Neue", "Helvetica", "Arial"],
-    "font.size":          7,
-    "axes.titlesize":     8,
-    "axes.labelsize":     7,
-    "xtick.labelsize":    6.5,
-    "ytick.labelsize":    6.5,
-    "legend.fontsize":    6.5,
-    "axes.linewidth":     0.6,
-    "xtick.major.width":  0.6,
-    "ytick.major.width":  0.6,
-    "xtick.major.size":   2.5,
-    "ytick.major.size":   2.5,
+    "font.family":        "serif",
+    "font.serif":         ["Times New Roman", "Times", "DejaVu Serif"],
+    "mathtext.fontset":   "stix",
+    "font.size":          PLOT_FONT_SIZES["base"],
+    "axes.titlesize":     PLOT_FONT_SIZES["panel_title"],
+    "axes.labelsize":     PLOT_FONT_SIZES["axis_label"],
+    "xtick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "ytick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "legend.fontsize":    PLOT_FONT_SIZES["legend"],
+    "axes.linewidth":     0.7,
+    "xtick.major.width":  0.7,
+    "ytick.major.width":  0.7,
+    "xtick.major.size":   3.0,
+    "ytick.major.size":   3.0,
     "axes.spines.top":    False,
     "axes.spines.right":  False,
     "figure.dpi":         300,
@@ -280,9 +304,8 @@ NATURE_RC = {
     "savefig.pad_inches": 0.05,
 }
 
-# Colorblind-safe palette (Wong 2011)
-PALETTE = ["#0072B2", "#E69F00", "#009E73", "#CC79A7",
-           "#56B4E9", "#D55E00", "#F0E442", "#000000"]
+PALETTE = [VT_MAROON, VT_ORANGE, VT_STONE, VT_DARK_STONE,
+           "#B3A369", "#508590", "#C64600", "#2C2A29"]
 
 
 def plot_confusion_matrix(cm_raw, class_names, loo_acc, out_path):
@@ -295,9 +318,9 @@ def plot_confusion_matrix(cm_raw, class_names, loo_acc, out_path):
     cm_norm = np.where(row_sum > 0, cm_raw / row_sum, 0.0)
 
     cmap_count  = LinearSegmentedColormap.from_list(
-        "nat_blue",  ["#F7FBFF", "#C6DBEF", "#6BAED6", "#2171B5", "#08306B"])
+        "vt_maroon", ["#FFFFFF", VT_PALE_MAROON, "#C89AAE", VT_MAROON])
     cmap_recall = LinearSegmentedColormap.from_list(
-        "nat_green", ["#F7FCF5", "#C7E9C0", "#74C476", "#238B45", "#00441B"])
+        "vt_orange", ["#FFFFFF", VT_PALE_ORANGE, "#F0A66E", VT_ORANGE])
 
     with plt.rc_context(NATURE_RC):
         fig, axes = plt.subplots(1, 2, figsize=(5.2, 2.4),
@@ -314,39 +337,46 @@ def plot_confusion_matrix(cm_raw, class_names, loo_acc, out_path):
                            interpolation="nearest", aspect="equal")
 
             cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, shrink=0.80)
-            cb.set_label(cbar_label, labelpad=4, fontsize=6)
-            cb.ax.tick_params(labelsize=5.5, width=0.5, length=2, pad=2)
+            cb.set_label(cbar_label, labelpad=4,
+                         fontsize=PLOT_FONT_SIZES["colorbar_label"])
+            cb.ax.tick_params(labelsize=PLOT_FONT_SIZES["colorbar_tick"],
+                              width=0.6, length=2.2, pad=2)
             cb.outline.set_linewidth(0.4)
 
             ax.set_xticks(range(C))
-            ax.set_xticklabels(class_names, rotation=30, ha="right")
+            ax.set_xticklabels(class_names, rotation=30, ha="right",
+                               fontsize=PLOT_FONT_SIZES["tick"])
             ax.set_yticks(range(C))
-            ax.set_yticklabels(class_names)
-            ax.set_xlabel("Predicted class")
-            ax.set_ylabel("True class")
+            ax.set_yticklabels(class_names, fontsize=PLOT_FONT_SIZES["tick"])
+            ax.set_xlabel("Predicted class",
+                          fontsize=PLOT_FONT_SIZES["axis_label"])
+            ax.set_ylabel("True class",
+                          fontsize=PLOT_FONT_SIZES["axis_label"])
 
             thresh = vm * 0.55
             for i in range(C):
                 for j in range(C):
                     v = data[i, j]
                     ax.text(j, i, f"{v:{fmt}}", ha="center", va="center",
-                            fontsize=5.5, fontweight="bold",
-                            color="white" if v > thresh else "#333333")
+                            fontsize=PLOT_FONT_SIZES["matrix_cell"],
+                            fontweight="bold",
+                            color="white" if v > thresh else VT_DARK_STONE)
             for k in range(C + 1):
-                ax.axhline(k - 0.5, color="white", lw=0.4)
-                ax.axvline(k - 0.5, color="white", lw=0.4)
+                ax.axhline(k - 0.5, color="white", lw=0.5)
+                ax.axvline(k - 0.5, color="white", lw=0.5)
             ax.set_xlim(-0.5, C - 0.5)
             ax.set_ylim(C - 0.5, -0.5)
             for spine in ax.spines.values():
                 spine.set_linewidth(0.4)
 
-        axes[0].set_title("Count")
-        axes[1].set_title("Recall")
+        axes[0].set_title("Count", fontsize=PLOT_FONT_SIZES["panel_title"])
+        axes[1].set_title("Recall", fontsize=PLOT_FONT_SIZES["panel_title"])
         fig.suptitle(
             f"LOO-CV confusion matrix  |  "
             f"overall accuracy = {loo_acc*100:.1f}%  "
             f"({int(round(loo_acc * cm_raw.sum()))} / {int(cm_raw.sum())} correct)",
-            fontsize=7.5, fontweight="bold", y=1.03)
+            fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold", y=1.04,
+            color=VT_MAROON)
 
         fig.savefig(str(out_path))
         plt.close(fig)
@@ -364,7 +394,7 @@ def plot_per_sample(fold_accs, fold_labels, class_names, loo_acc, out_path):
     """
     N      = len(fold_accs)
     chance = 1.0 / len(class_names)
-    colors = [PALETTE[2] if a > chance else PALETTE[5] for a in fold_accs]
+    colors = [VT_MAROON if a > chance else VT_ORANGE for a in fold_accs]
 
     with plt.rc_context(NATURE_RC):
         fig, ax = plt.subplots(figsize=(3.8, 0.55 * N + 0.8))
@@ -376,36 +406,40 @@ def plot_per_sample(fold_accs, fold_labels, class_names, loo_acc, out_path):
         # Accuracy labels on bars
         for y, a in zip(ys, fold_accs):
             ax.text(a * 100 + 0.8, y, f"{a*100:.0f}%",
-                    va="center", fontsize=6, color="#333333")
+                    va="center", fontsize=PLOT_FONT_SIZES["annotation"],
+                    color=VT_DARK_STONE)
 
         # Reference lines
-        ax.axvline(loo_acc * 100, lw=1.2, ls="-", color="#333333",
+        ax.axvline(loo_acc * 100, lw=1.4, ls="-", color=VT_DARK_STONE,
                    zorder=3, label=f"LOO-CV acc = {loo_acc*100:.1f}%")
-        ax.axvline(chance * 100, lw=0.8, ls="--", color="#AAAAAA",
+        ax.axvline(chance * 100, lw=1.0, ls="--", color=VT_STONE,
                    zorder=1, label=f"Chance = {chance*100:.0f}%")
 
         ax.set_yticks(ys)
-        ax.set_yticklabels(fold_labels)
-        ax.set_xlabel("Accuracy on held-out sample (%)")
+        ax.set_yticklabels(fold_labels, fontsize=PLOT_FONT_SIZES["tick"])
+        ax.tick_params(axis="x", labelsize=PLOT_FONT_SIZES["tick"])
+        ax.set_xlabel("Accuracy on held-out sample (%)",
+                      fontsize=PLOT_FONT_SIZES["axis_label"])
         ax.set_xlim(0, 115)
         ax.set_ylim(-0.5, N - 0.5)
         ax.xaxis.set_major_locator(plt.MultipleLocator(25))
         ax.set_title("Per-fold accuracy  (held-out sample → test)",
-                     fontweight="bold")
-        ax.legend(fontsize=6, loc="lower right", frameon=True,
-                  framealpha=0.92, edgecolor="#DDDDDD")
+                     fontsize=PLOT_FONT_SIZES["title"], fontweight="bold",
+                     color=VT_MAROON)
+        ax.legend(fontsize=PLOT_FONT_SIZES["legend"], loc="lower right",
+                  frameon=True, framealpha=0.92, edgecolor=VT_LIGHT_STONE)
 
         # Colour legend
         import matplotlib.patches as mpatches
         ax.legend(handles=[
-            mpatches.Patch(color=PALETTE[2], alpha=0.82, label="Above chance"),
-            mpatches.Patch(color=PALETTE[5], alpha=0.82, label="At/below chance"),
-            plt.Line2D([0],[0], color="#333333", lw=1.2,
+            mpatches.Patch(color=VT_MAROON, alpha=0.82, label="Above chance"),
+            mpatches.Patch(color=VT_ORANGE, alpha=0.82, label="At/below chance"),
+            plt.Line2D([0],[0], color=VT_DARK_STONE, lw=1.4,
                        label=f"LOO-CV acc = {loo_acc*100:.1f}%"),
-            plt.Line2D([0],[0], color="#AAAAAA", lw=0.8, ls="--",
+            plt.Line2D([0],[0], color=VT_STONE, lw=1.0, ls="--",
                        label=f"Chance = {chance*100:.0f}%"),
-        ], fontsize=6, loc="lower right", frameon=True,
-           framealpha=0.92, edgecolor="#DDDDDD")
+        ], fontsize=PLOT_FONT_SIZES["legend"], loc="lower right",
+           frameon=True, framealpha=0.92, edgecolor=VT_LIGHT_STONE)
 
         fig.savefig(str(out_path))
         plt.close(fig)
@@ -474,14 +508,14 @@ def main():
     cm = confusion_matrix(y_true, y_pred, labels=class_labels)
 
     plot_confusion_matrix(cm, class_names, loo_acc,
-                          out_dir / "loo_confusion_matrix.png")
+                          out_dir / "loo_confusion_matrix.pdf")
 
     plot_per_sample(fold_accs, fold_labels, class_names, loo_acc,
-                    out_dir / "loo_per_sample.png")
+                    out_dir / "loo_per_sample.pdf")
 
     print(f"\n  Done.  Outputs → {out_dir.resolve()}")
-    print(f"    loo_confusion_matrix.png")
-    print(f"    loo_per_sample.png")
+    print(f"    loo_confusion_matrix.pdf")
+    print(f"    loo_per_sample.pdf")
 
 
 if __name__ == "__main__":

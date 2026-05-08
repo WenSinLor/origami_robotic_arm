@@ -37,12 +37,13 @@ from sklearn.metrics import confusion_matrix, classification_report
 #  CONFIG  —  edit this block only
 # ══════════════════════════════════════════════════════════════════════════════
 
-ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+# ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+ROOT_DIR = "/home/wensin/Documents/origami_robotic_arm/data"
 
 # Directory aliases
 DIRS = {
-    "base" : f"{ROOT_DIR}/soft_state_100g_bending_sensor",
-    "near" : f"{ROOT_DIR}/soft_state_100g_near_bending_sensor",
+    "base" : f"{ROOT_DIR}/soft_state_20g",
+    "near" : f"{ROOT_DIR}/soft_state_100g_near",
 }
 
 # ── Train samples: fully independent per class ────────────────────────────────
@@ -56,13 +57,13 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_4.h5"),
         ("base", "trajectories_sample_5.h5"),
         ("base", "trajectories_sample_6.h5"),
-        ("near", "trajectories_sample_7.h5"),
-        ("near", "trajectories_sample_8.h5"),
-        ("near", "trajectories_sample_9.h5"),
-        ("near", "trajectories_sample_10.h5"),
-        ("near", "trajectories_sample_11.h5"),
-        ("near", "trajectories_sample_12.h5"),
-        ("near", "trajectories_sample_13.h5"),
+        ("base", "trajectories_sample_7.h5"),
+        # ("near", "trajectories_sample_8.h5"),
+        # ("near", "trajectories_sample_9.h5"),
+        # ("near", "trajectories_sample_10.h5"),
+        # ("near", "trajectories_sample_11.h5"),
+        # ("near", "trajectories_sample_12.h5"),
+        # ("near", "trajectories_sample_13.h5"),
 
     ],
     "coor_1": [
@@ -74,12 +75,12 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_5.h5"),
         ("base", "trajectories_sample_6.h5"),
         ("base", "trajectories_sample_7.h5"),
-        ("base", "trajectories_sample_8.h5"),
-        ("base", "trajectories_sample_9.h5"),
-        ("base", "trajectories_sample_10.h5"),
-        ("base", "trajectories_sample_11.h5"),
-        ("base", "trajectories_sample_12.h5"),
-        ("base", "trajectories_sample_13.h5"),
+        # ("base", "trajectories_sample_8.h5"),
+        # ("base", "trajectories_sample_9.h5"),
+        # ("base", "trajectories_sample_10.h5"),
+        # ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_12.h5"),
+        # ("base", "trajectories_sample_13.h5"),
     ],
     "coor_2": [
         ("base", "trajectories_sample_0.h5"),
@@ -90,12 +91,12 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_5.h5"),
         ("base", "trajectories_sample_6.h5"),
         ("base", "trajectories_sample_7.h5"),
-        ("base", "trajectories_sample_8.h5"),
-        ("base", "trajectories_sample_9.h5"),
-        ("base", "trajectories_sample_10.h5"),
-        ("base", "trajectories_sample_11.h5"),
-        ("base", "trajectories_sample_12.h5"),
-        ("base", "trajectories_sample_13.h5"),
+        # ("base", "trajectories_sample_8.h5"),
+        # ("base", "trajectories_sample_9.h5"),
+        # ("base", "trajectories_sample_10.h5"),
+        # ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_12.h5"),
+        # ("base", "trajectories_sample_13.h5"),
     ],
     "coor_3": [
         ("base", "trajectories_sample_0.h5"),
@@ -106,68 +107,72 @@ TRAIN_SAMPLES = {
         ("base", "trajectories_sample_5.h5"),
         ("base", "trajectories_sample_6.h5"),
         ("base", "trajectories_sample_7.h5"),
-        ("base", "trajectories_sample_8.h5"),
-        ("base", "trajectories_sample_9.h5"),
-        ("base", "trajectories_sample_10.h5"),
-        ("base", "trajectories_sample_11.h5"),
-        ("base", "trajectories_sample_12.h5"),
-        ("base", "trajectories_sample_13.h5"),
+        # ("base", "trajectories_sample_8.h5"),
+        # ("base", "trajectories_sample_9.h5"),
+        # ("base", "trajectories_sample_10.h5"),
+        # ("base", "trajectories_sample_11.h5"),
+        # ("base", "trajectories_sample_12.h5"),
+        # ("base", "trajectories_sample_13.h5"),
     ],
 }
 
 # ── Test samples: fully independent per class ─────────────────────────────────
 TEST_SAMPLES = {
     "coor_0": [
-        # ("base", "trajectories_sample_9.h5"),
-        # ("base", "trajectories_sample_10.h5"),
-        # ("base", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
         # ("base", "trajectories_sample_12.h5"),
         # ("base", "trajectories_sample_13.h5"),
-        ("near", "trajectories_sample_14.h5"),
-        ("near", "trajectories_sample_15.h5"),
-        ("near", "trajectories_sample_16.h5"),
-        ("near", "trajectories_sample_17.h5"),
-        ("near", "trajectories_sample_18.h5"),
-        ("near", "trajectories_sample_19.h5"),
+        # ("near", "trajectories_sample_14.h5"),
+        # ("near", "trajectories_sample_15.h5"),
+        # ("near", "trajectories_sample_16.h5"),
+        # ("near", "trajectories_sample_17.h5"),
+        # ("near", "trajectories_sample_18.h5"),
+        # ("near", "trajectories_sample_19.h5"),
     ],
     "coor_1": [
-        # ("base", "trajectories_sample_9.h5"),
-        # ("base", "trajectories_sample_10.h5"),
-        # ("base", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
         # ("base", "trajectories_sample_12.h5"),
         # ("base", "trajectories_sample_13.h5"),
-        ("near", "trajectories_sample_14.h5"),
-        ("near", "trajectories_sample_15.h5"),
-        ("near", "trajectories_sample_16.h5"),
-        ("near", "trajectories_sample_17.h5"),
-        ("near", "trajectories_sample_18.h5"),
-        ("near", "trajectories_sample_19.h5"),
+        # ("near", "trajectories_sample_14.h5"),
+        # ("near", "trajectories_sample_15.h5"),
+        # ("near", "trajectories_sample_16.h5"),
+        # ("near", "trajectories_sample_17.h5"),
+        # ("near", "trajectories_sample_18.h5"),
+        # ("near", "trajectories_sample_19.h5"),
     ],
     "coor_2": [
-        # ("base", "trajectories_sample_9.h5"),
-        # ("base", "trajectories_sample_10.h5"),
-        # ("base", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
         # ("base", "trajectories_sample_12.h5"),
         # ("base", "trajectories_sample_13.h5"),
-        ("near", "trajectories_sample_14.h5"),
-        ("near", "trajectories_sample_15.h5"),
-        ("near", "trajectories_sample_16.h5"),
-        ("near", "trajectories_sample_17.h5"),
-        ("near", "trajectories_sample_18.h5"),
-        ("near", "trajectories_sample_19.h5"),
+        # ("near", "trajectories_sample_14.h5"),
+        # ("near", "trajectories_sample_15.h5"),
+        # ("near", "trajectories_sample_16.h5"),
+        # ("near", "trajectories_sample_17.h5"),
+        # ("near", "trajectories_sample_18.h5"),
+        # ("near", "trajectories_sample_19.h5"),
     ],
     "coor_3": [
-        # ("base", "trajectories_sample_9.h5"),
-        # ("base", "trajectories_sample_10.h5"),
-        # ("base", "trajectories_sample_11.h5"),
+        ("base", "trajectories_sample_8.h5"),
+        ("base", "trajectories_sample_9.h5"),
+        ("base", "trajectories_sample_10.h5"),
+        ("base", "trajectories_sample_11.h5"),
         # ("base", "trajectories_sample_12.h5"),
         # ("base", "trajectories_sample_13.h5"),
-        ("near", "trajectories_sample_14.h5"),
-        ("near", "trajectories_sample_15.h5"),
-        ("near", "trajectories_sample_16.h5"),
-        ("near", "trajectories_sample_17.h5"),
-        ("near", "trajectories_sample_18.h5"),
-        ("near", "trajectories_sample_19.h5"),
+        # ("near", "trajectories_sample_14.h5"),
+        # ("near", "trajectories_sample_15.h5"),
+        # ("near", "trajectories_sample_16.h5"),
+        # ("near", "trajectories_sample_17.h5"),
+        # ("near", "trajectories_sample_18.h5"),
+        # ("near", "trajectories_sample_19.h5"),
     ],
 }
 
@@ -187,7 +192,7 @@ CLASS_TARGETS = np.array([[ 1.,  0.],
 ACTIVE_CLASSES  = [1, 2, 3, 4]
 EXCLUDE_MARKERS = []
 
-OUTPUT_DIR = f"{ROOT_DIR}/soft_state_100g_near_bending_sensor"
+OUTPUT_DIR = f"{ROOT_DIR}/soft_state_20g"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -379,20 +384,46 @@ def run_inference(coor_dirs, class_labels, class_names, class_targets,
 #  FIGURES
 # ══════════════════════════════════════════════════════════════════════════════
 
+VT_MAROON = "#861F41"
+VT_ORANGE = "#E5751F"
+VT_STONE = "#75787B"
+VT_DARK_STONE = "#54585A"
+VT_LIGHT_STONE = "#D7D2CB"
+VT_PALE_MAROON = "#F2E8ED"
+VT_PALE_ORANGE = "#FBE9DC"
+VT_GOLD = "#B3A369"
+VT_TEAL = "#508590"
+
+PLOT_FONT_SIZES = {
+    "base": 9,
+    "axis_label": 9,
+    "tick": 8,
+    "legend": 7.5,
+    "title": 10,
+    "panel_title": 9,
+    "suptitle": 10,
+    "annotation": 7,
+    "matrix_cell": 8,
+    "class_label": 8,
+    "colorbar_label": 8,
+    "colorbar_tick": 7,
+}
+
 NATURE_RC = {
-    "font.family":        "sans-serif",
-    "font.sans-serif":    ["Helvetica Neue", "Helvetica", "Arial"],
-    "font.size":          7,
-    "axes.titlesize":     8,
-    "axes.labelsize":     7,
-    "xtick.labelsize":    6.5,
-    "ytick.labelsize":    6.5,
-    "legend.fontsize":    6.5,
-    "axes.linewidth":     0.6,
-    "xtick.major.width":  0.6,
-    "ytick.major.width":  0.6,
-    "xtick.major.size":   2.5,
-    "ytick.major.size":   2.5,
+    "font.family":        "serif",
+    "font.serif":         ["Times New Roman", "Times", "DejaVu Serif"],
+    "mathtext.fontset":   "stix",
+    "font.size":          PLOT_FONT_SIZES["base"],
+    "axes.titlesize":     PLOT_FONT_SIZES["panel_title"],
+    "axes.labelsize":     PLOT_FONT_SIZES["axis_label"],
+    "xtick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "ytick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "legend.fontsize":    PLOT_FONT_SIZES["legend"],
+    "axes.linewidth":     0.7,
+    "xtick.major.width":  0.7,
+    "ytick.major.width":  0.7,
+    "xtick.major.size":   3.0,
+    "ytick.major.size":   3.0,
     "axes.spines.top":    False,
     "axes.spines.right":  False,
     "figure.dpi":         300,
@@ -401,20 +432,20 @@ NATURE_RC = {
     "savefig.pad_inches": 0.05,
 }
 
-PALETTE = ["#0072B2", "#E69F00", "#009E73", "#CC79A7",
-           "#56B4E9", "#D55E00", "#F0E442", "#000000"]
+PALETTE = [VT_MAROON, VT_ORANGE, VT_STONE, VT_TEAL,
+           VT_GOLD, "#C64600", VT_DARK_STONE, "#2C2A29"]
 
 DIR_MARKERS = {"base": "o", "near": "s"}
-DIR_BG      = {"base": "#EEF4FB", "near": "#FFF8EE"}
+DIR_BG      = {"base": VT_PALE_MAROON, "near": VT_PALE_ORANGE}
 
 
 def plot_staircase(results, class_labels, class_names,
                    test_samples_dict, train_acc, test_acc, out_path):
-    COL_TARGET = "#333333"
-    COL_X      = "#0072B2"
-    COL_Y      = "#E69F00"
-    COL_OK     = "#009E73"
-    COL_BAD    = "#D55E00"
+    COL_TARGET = VT_DARK_STONE
+    COL_X      = VT_MAROON
+    COL_Y      = VT_ORANGE
+    COL_OK     = VT_STONE
+    COL_BAD    = "#C64600"
 
     # Build ordered list: class order → then sample order within class
     ordered = []
@@ -431,10 +462,7 @@ def plot_staircase(results, class_labels, class_names,
         print("[WARN] No results to plot staircase.")
         return
 
-    with plt.rc_context({**NATURE_RC,
-                         "font.size": 8, "axes.labelsize": 8,
-                         "xtick.labelsize": 7, "ytick.labelsize": 7,
-                         "legend.fontsize": 7.5}):
+    with plt.rc_context(NATURE_RC):
         fig, (axx, axy) = plt.subplots(2, 1, figsize=(11, 3.8), sharex=True,
                                         gridspec_kw={"hspace": 0.08})
 
@@ -445,7 +473,9 @@ def plot_staircase(results, class_labels, class_names,
             ta  = ts + t_offset
             tx, ty = float(r["target_xy"][0]), float(r["target_xy"][1])
             mx, my = float(r["mean_xy"][0]),   float(r["mean_xy"][1])
-            col_mu = COL_OK if r["pred_class"] == r["label"] else COL_BAD
+            is_correct = r["pred_class"] == r["label"]
+            status_col = COL_OK if is_correct else COL_BAD
+            mean_ls = "-" if is_correct else ":"
             sx = float(r["Y_hat"][:,0].std())
             sy = float(r["Y_hat"][:,1].std())
 
@@ -453,26 +483,32 @@ def plot_staircase(results, class_labels, class_names,
             for ax in (axx, axy):
                 ax.axvspan(ta[0], ta[-1], color=bg_col, alpha=0.5, zorder=0)
 
-            for ax, sig, tgt, mean_v, sd_v, col_sig, ylabel in [
-                (axx, r["Y_hat"][:,0], tx, mx, sx, COL_X, "x readout"),
-                (axy, r["Y_hat"][:,1], ty, my, sy, COL_Y, "y readout"),
+            for ax, sig, tgt, mean_v, sd_v, col_sig, band_col, ylabel in [
+                (axx, r["Y_hat"][:,0], tx, mx, sx, COL_X,
+                 VT_PALE_MAROON, "x readout"),
+                (axy, r["Y_hat"][:,1], ty, my, sy, COL_Y,
+                 VT_PALE_ORANGE, "y readout"),
             ]:
                 ax.hlines(tgt, ta[0], ta[-1], colors=COL_TARGET, lw=1.8,
                           ls="--", alpha=0.7,
                           label="Target" if first and ax is axx else "")
                 ax.plot(ta, sig, color=col_sig, lw=0.8, alpha=0.8,
-                        label=("x̂(t)" if ax is axx else "ŷ(t)") if first else "")
+                        label=("x(t)" if ax is axx else "y(t)") if first else "")
                 ax.fill_between(ta, mean_v - sd_v, mean_v + sd_v,
-                                color=col_mu, alpha=0.15, linewidth=0,
+                                color=band_col, alpha=0.45, linewidth=0,
                                 label="±1 SD" if first and ax is axx else "")
-                ax.hlines(mean_v, ta[0], ta[-1], colors=col_mu, lw=1.5,
-                          ls="-", alpha=0.9,
+                ax.hlines(mean_v, ta[0], ta[-1], colors=col_sig, lw=1.5,
+                          ls=mean_ls, alpha=0.95,
                           label="Mean" if first and ax is axx else "")
                 ax.text(ta[len(ta)//2], mean_v + sd_v + 0.06,
                         f"{mean_v:+.2f}\n±{sd_v:.2f}",
-                        ha="center", va="bottom", fontsize=5.0,
-                        color=col_mu, fontweight="bold", linespacing=1.3)
-                ax.set_ylabel(ylabel)
+                        ha="center", va="bottom",
+                        fontsize=PLOT_FONT_SIZES["annotation"],
+                        color=col_sig, fontweight="bold", linespacing=1.3,
+                        bbox=dict(boxstyle="round,pad=0.18",
+                                  facecolor="white", edgecolor=status_col,
+                                  linewidth=0.7, alpha=0.9))
+                ax.set_ylabel(ylabel, fontsize=PLOT_FONT_SIZES["axis_label"])
 
             sample_mids.append(ta[len(ta)//2])
             t_offset += float(ts[-1]) + dt
@@ -485,24 +521,35 @@ def plot_staircase(results, class_labels, class_names,
             dur = float(ts[-1]) + (float(ts[1]-ts[0]) if len(ts) > 1 else 1/30)
             if i > 0:
                 for ax in (axx, axy):
-                    ax.axvline(t_cur, color="#CCCCCC", lw=0.6, ls=":", zorder=1)
+                    ax.axvline(t_cur, color=VT_LIGHT_STONE, lw=0.7, ls=":",
+                               zorder=1)
             t_cur += dur
 
         for ax in (axx, axy):
             ax.set_ylim(-2.1, 2.1)
             ax.set_yticks([-1, 0, 1])
-            ax.spines["bottom"].set_linewidth(0.6)
+            ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
+            ax.spines["bottom"].set_linewidth(0.7)
 
-        axy.set_xlabel("Time (s)")
+        axy.set_xlabel("Time (s)", fontsize=PLOT_FONT_SIZES["axis_label"])
 
         from matplotlib.patches import Patch
+        from matplotlib.lines import Line2D
         extra_handles = [
-            Patch(facecolor=DIR_BG["base"], edgecolor="#AAAAAA", label="base"),
-            Patch(facecolor=DIR_BG["near"], edgecolor="#AAAAAA", label="near"),
+            Patch(facecolor=DIR_BG["base"], edgecolor=VT_STONE, label="base"),
+            Patch(facecolor=DIR_BG["near"], edgecolor=VT_STONE, label="near"),
+            Line2D([0], [0], color=COL_Y, lw=0.9, label="y(t)"),
+            Line2D([0], [0], marker="s", color="none",
+                   markerfacecolor="white", markeredgecolor=COL_OK,
+                   markersize=5, label="correct annotation"),
+            Line2D([0], [0], marker="s", color="none",
+                   markerfacecolor="white", markeredgecolor=COL_BAD,
+                   markersize=5, label="wrong annotation"),
         ]
         base_handles, _ = axx.get_legend_handles_labels()
         axx.legend(loc="upper left", frameon=True, framealpha=0.9,
-                   edgecolor="#DDDDDD", ncol=5,
+                   edgecolor=VT_LIGHT_STONE, ncol=5,
+                   fontsize=PLOT_FONT_SIZES["legend"],
                    handles=base_handles + extra_handles)
 
         # Class labels on top axis — use midpoint of each class's block
@@ -516,13 +563,16 @@ def plot_staircase(results, class_labels, class_names,
 
         ax_top = axx.secondary_xaxis("top")
         ax_top.set_xticks(class_mids)
-        ax_top.set_xticklabels(class_names, fontsize=7.5, fontweight="bold")
+        ax_top.set_xticklabels(class_names,
+                               fontsize=PLOT_FONT_SIZES["class_label"],
+                               fontweight="bold", color=VT_MAROON)
         ax_top.tick_params(length=0)
 
         fig.suptitle(
             f"Per-class mixed-source 2D readout — "
             f"train acc = {train_acc*100:.0f}%   test acc = {test_acc*100:.0f}%",
-            fontsize=7, y=1.01)
+            fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+            color=VT_MAROON, y=1.01)
 
         fig.savefig(str(out_path))
         plt.close(fig)
@@ -542,10 +592,11 @@ def plot_polar(results, class_labels, class_names, class_targets,
             theta = np.arctan2(float(tgt[1]), float(tgt[0]))
             r     = np.hypot(float(tgt[0]), float(tgt[1]))
             ax.scatter(theta, r, marker="*", s=160,
-                       color=COLORS[lab], edgecolor="#333333",
+                       color=COLORS[lab], edgecolor=VT_DARK_STONE,
                        linewidths=0.6, zorder=5)
             ax.text(theta, r + 0.10, name, ha="center", va="center",
-                    fontsize=6, fontweight="bold", color=COLORS[lab])
+                    fontsize=PLOT_FONT_SIZES["class_label"],
+                    fontweight="bold", color=COLORS[lab])
 
         for r in results:
             x, y   = r["mean_xy"]
@@ -564,22 +615,24 @@ def plot_polar(results, class_labels, class_names, class_targets,
         ax.set_title(
             f"Polar readout (○=base, □=near, ×=wrong)\n"
             f"train acc={train_acc*100:.0f}%  test acc={test_acc*100:.0f}%",
-            fontsize=6.5, pad=8)
+            fontsize=PLOT_FONT_SIZES["title"], pad=10,
+            color=VT_MAROON, fontweight="bold")
 
         legend_handles = (
             [plt.Line2D([0],[0], marker="o", color=PALETTE[i % len(PALETTE)],
                         ls="None", markersize=4, label=n)
              for i, (_, n) in enumerate(zip(class_labels, class_names))] +
-            [plt.Line2D([0],[0], marker="o", color="#555", ls="None",
+            [plt.Line2D([0],[0], marker="o", color=VT_DARK_STONE, ls="None",
                         markersize=4, label="base correct"),
-             plt.Line2D([0],[0], marker="s", color="#555", ls="None",
+             plt.Line2D([0],[0], marker="s", color=VT_DARK_STONE, ls="None",
                         markersize=4, label="near correct"),
-             plt.Line2D([0],[0], marker="x", color="#555", ls="None",
+             plt.Line2D([0],[0], marker="x", color=VT_DARK_STONE, ls="None",
                         markersize=5, markeredgewidth=1.0, label="Wrong")]
         )
-        ax.legend(handles=legend_handles, fontsize=5.5,
+        ax.tick_params(labelsize=PLOT_FONT_SIZES["tick"])
+        ax.legend(handles=legend_handles, fontsize=PLOT_FONT_SIZES["legend"],
                   loc="upper left", frameon=True, framealpha=0.9,
-                  edgecolor="#DDDDDD")
+                  edgecolor=VT_LIGHT_STONE)
 
         fig.savefig(str(out_path))
         plt.close(fig)
@@ -592,9 +645,9 @@ def plot_confusion_matrix(cm_raw, class_names, train_acc, test_acc, out_path):
     cm_norm = np.where(row_sum > 0, cm_raw / row_sum, 0.0)
 
     cmap_count  = LinearSegmentedColormap.from_list(
-        "nat_blue",  ["#F7FBFF", "#C6DBEF", "#6BAED6", "#2171B5", "#08306B"])
+        "vt_maroon", ["#FFFFFF", VT_PALE_MAROON, "#C89AAE", VT_MAROON])
     cmap_recall = LinearSegmentedColormap.from_list(
-        "nat_green", ["#F7FCF5", "#C7E9C0", "#74C476", "#238B45", "#00441B"])
+        "vt_orange", ["#FFFFFF", VT_PALE_ORANGE, "#F0A66E", VT_ORANGE])
 
     with plt.rc_context(NATURE_RC):
         fig, axes = plt.subplots(1, 2, figsize=(5.2, 2.4),
@@ -608,30 +661,40 @@ def plot_confusion_matrix(cm_raw, class_names, train_acc, test_acc, out_path):
             im = ax.imshow(data, cmap=cmap, vmin=0, vmax=vm,
                            interpolation="nearest", aspect="equal")
             cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, shrink=0.80)
-            cb.set_label(cbar_label, labelpad=4, fontsize=6)
-            cb.ax.tick_params(labelsize=5.5, width=0.5, length=2, pad=2)
+            cb.set_label(cbar_label, labelpad=4,
+                         fontsize=PLOT_FONT_SIZES["colorbar_label"])
+            cb.ax.tick_params(labelsize=PLOT_FONT_SIZES["colorbar_tick"],
+                              width=0.6, length=2.2, pad=2)
             cb.outline.set_linewidth(0.4)
-            ax.set_xticks(range(C)); ax.set_xticklabels(class_names, rotation=30, ha="right")
-            ax.set_yticks(range(C)); ax.set_yticklabels(class_names)
-            ax.set_xlabel("Predicted class"); ax.set_ylabel("True class")
+            ax.set_xticks(range(C))
+            ax.set_xticklabels(class_names, rotation=30, ha="right",
+                               fontsize=PLOT_FONT_SIZES["tick"])
+            ax.set_yticks(range(C))
+            ax.set_yticklabels(class_names, fontsize=PLOT_FONT_SIZES["tick"])
+            ax.set_xlabel("Predicted class",
+                          fontsize=PLOT_FONT_SIZES["axis_label"])
+            ax.set_ylabel("True class", fontsize=PLOT_FONT_SIZES["axis_label"])
             thresh = vm * 0.55
             for i in range(C):
                 for j in range(C):
                     v = data[i, j]
                     ax.text(j, i, f"{v:{fmt}}", ha="center", va="center",
-                            fontsize=5.5, fontweight="bold",
-                            color="white" if v > thresh else "#333333")
+                            fontsize=PLOT_FONT_SIZES["matrix_cell"],
+                            fontweight="bold",
+                            color="white" if v > thresh else VT_DARK_STONE)
             for k in range(C + 1):
-                ax.axhline(k - 0.5, color="white", lw=0.4)
-                ax.axvline(k - 0.5, color="white", lw=0.4)
+                ax.axhline(k - 0.5, color="white", lw=0.5)
+                ax.axvline(k - 0.5, color="white", lw=0.5)
             ax.set_xlim(-0.5, C - 0.5); ax.set_ylim(C - 0.5, -0.5)
             for spine in ax.spines.values():
                 spine.set_linewidth(0.4)
-        axes[0].set_title("Count"); axes[1].set_title("Recall")
+        axes[0].set_title("Count", fontsize=PLOT_FONT_SIZES["panel_title"])
+        axes[1].set_title("Recall", fontsize=PLOT_FONT_SIZES["panel_title"])
         fig.suptitle(
             f"Confusion matrix  (train acc = {train_acc*100:.0f}%,  "
             f"test acc = {test_acc*100:.0f}%)",
-            fontsize=7.5, fontweight="bold", y=1.03)
+            fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+            color=VT_MAROON, y=1.04)
         fig.savefig(str(out_path))
         plt.close(fig)
     print(f"  Saved → {out_path}")
@@ -673,17 +736,22 @@ def plot_pca(pca, mu, std, coor_dirs, class_labels, class_names,
                                         gridspec_kw={"wspace": 0.42})
         xs = np.arange(1, k + 1)
         ax1.bar(xs, pca.explained_variance_ratio_ * 100,
-                color="#9ECAE1", edgecolor="white", lw=0.4, label="Individual")
+                color=VT_PALE_ORANGE, edgecolor="white", lw=0.5,
+                label="Individual")
         ax1.plot(xs, cumvar * 100, color=PALETTE[0], lw=1.5,
                  marker="o", ms=3, label="Cumulative")
-        ax1.axhline(95, color="#AAAAAA", lw=0.8, ls="--")
-        ax1.axvline(k_95, color=PALETTE[2], lw=1.2, ls="--",
+        ax1.axhline(95, color=VT_STONE, lw=1.0, ls="--")
+        ax1.axvline(k_95, color=VT_ORANGE, lw=1.2, ls="--",
                     label=f"95% @ PC{k_95}")
-        ax1.set_xlabel("Principal component")
-        ax1.set_ylabel("Explained variance (%)")
-        ax1.set_title("Scree plot", fontweight="bold")
+        ax1.set_xlabel("Principal component",
+                       fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax1.set_ylabel("Explained variance (%)",
+                       fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax1.set_title("Scree plot", fontsize=PLOT_FONT_SIZES["panel_title"],
+                      fontweight="bold", color=VT_MAROON)
         ax1.set_xlim(0.5, min(k + 0.5, 20.5)); ax1.set_ylim(0, 110)
-        ax1.legend(fontsize=6)
+        ax1.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
+        ax1.legend(fontsize=PLOT_FONT_SIZES["legend"])
 
         for (cdir, cname), col in zip(zip(coor_dirs, class_names), COLORS):
             Xp = proj_train[cdir]
@@ -701,20 +769,27 @@ def plot_pca(pca, mu, std, coor_dirs, class_labels, class_names,
                 pool = np.vstack([arr for arr in (Xp, Xt) if len(arr) > 0])
                 ax2.text(pool[:, PCX].mean(),
                          pool[:, PCY].mean() if k > PCY else 0,
-                         cname, fontsize=6, color=col, fontweight="bold",
+                         cname, fontsize=PLOT_FONT_SIZES["class_label"],
+                         color=col, fontweight="bold",
                          ha="center", va="center",
                          bbox=dict(boxstyle="round,pad=0.15", fc="white",
                                    alpha=0.85, ec=col, lw=0.6))
 
-        ax2.set_xlabel(f"PC{PCX+1}  ({pca.explained_variance_ratio_[PCX]*100:.1f}%)")
+        ax2.set_xlabel(f"PC{PCX+1}  ({pca.explained_variance_ratio_[PCX]*100:.1f}%)",
+                       fontsize=PLOT_FONT_SIZES["axis_label"])
         ax2.set_ylabel(f"PC{PCY+1}  ({pca.explained_variance_ratio_[PCY]*100:.1f}%)"
-                       if k > PCY else f"PC{PCY+1} (n/a)")
+                       if k > PCY else f"PC{PCY+1} (n/a)",
+                       fontsize=PLOT_FONT_SIZES["axis_label"])
         ax2.set_title(f"PC{PCX+1} vs PC{PCY+1}  (filled=train, hollow=test)",
-                      fontweight="bold")
-        ax2.legend(fontsize=5.5, markerscale=2, loc="best")
+                      fontsize=PLOT_FONT_SIZES["panel_title"],
+                      fontweight="bold", color=VT_MAROON)
+        ax2.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
+        ax2.legend(fontsize=PLOT_FONT_SIZES["legend"], markerscale=2,
+                   loc="best")
         fig.suptitle(
             f"PCA diagnostic  |  {k} components  |  {N} markers × 2 = {N*2} features",
-            fontsize=7, fontweight="bold", y=1.02)
+            fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+            color=VT_MAROON, y=1.03)
         fig.savefig(str(out_path))
         plt.close(fig)
     print(f"  Saved → {out_path}")
@@ -773,18 +848,18 @@ def main():
 
     plot_staircase(results, class_labels, class_names,
                    TEST_SAMPLES, train_acc, test_acc,
-                   out_dir / "perclass_staircase.png")
+                   out_dir / "perclass_staircase.pdf")
 
     plot_polar(results, class_labels, class_names, class_targets,
                train_acc, test_acc,
-               out_dir / "perclass_polar.png")
+               out_dir / "perclass_polar.pdf")
 
     plot_confusion_matrix(cm, class_names, train_acc, test_acc,
-                          out_dir / "perclass_confusion_matrix.png")
+                          out_dir / "perclass_confusion_matrix.pdf")
 
     plot_pca(pca, mu, std, coor_dirs, class_labels, class_names,
              TRAIN_SAMPLES, TEST_SAMPLES, N,
-             out_dir / "perclass_pca.png")
+             out_dir / "perclass_pca.pdf")
 
     print(f"\n  Done.  Outputs → {out_dir.resolve()}")
 
