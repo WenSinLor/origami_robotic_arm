@@ -750,9 +750,9 @@ REFERENCE_LAYOUTS = {
 # Use {i} as placeholder for sample_id in the templates.
 TRIAL_BATCHES = [
     ("coor_0", f"{BASE}/soft_state_noload/coor_0/C1412_sample_{{i}}.mp4", f"{BASE}/soft_state_noload/coor_0/trajectories_sample_{{i}}.h5", 12),
-    # ("coor_1", f"{BASE}/stiff_state_20g/coor_1/C1387_sample_{{i}}.mp4", f"{BASE}/stiff_state_20g/coor_1/trajectories_sample_{{i}}.h5", 12),
-    # ("coor_2", f"{BASE}/stiff_state_20g/coor_2/C1388_sample_{{i}}.mp4", f"{BASE}/stiff_state_20g/coor_2/trajectories_sample_{{i}}.h5", 12),
-    # ("coor_3", f"{BASE}/stiff_state_20g/coor_3/C1389_sample_{{i}}.mp4", f"{BASE}/stiff_state_20g/coor_3/trajectories_sample_{{i}}.h5", 12),
+    # ("coor_1", f"{BASE}/mix_state_20g/coor_1/C1393_sample_{{i}}.mp4", f"{BASE}/mix_state_20g/coor_1/trajectories_sample_{{i}}.h5", 12),
+    # ("coor_2", f"{BASE}/mix_state_20g/coor_2/C1394_sample_{{i}}.mp4", f"{BASE}/mix_state_20g/coor_2/trajectories_sample_{{i}}.h5", 12),
+    # ("coor_3", f"{BASE}/mix_state_20g/coor_3/C1395_sample_{{i}}.mp4", f"{BASE}/mix_state_20g/coor_3/trajectories_sample_{{i}}.h5", 12),
 ]
 
 # ═══════════════════════════════════════════════════════════════
