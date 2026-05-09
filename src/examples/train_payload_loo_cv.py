@@ -46,8 +46,8 @@ from sklearn.metrics import confusion_matrix, classification_report
 #  CONFIG  —  edit this block only
 # ══════════════════════════════════════════════════════════════════════════════
 
-BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_near"
-# BASE_DIR = "/home/wensin/Documents/origami_robotic_arm/data/soft_state_100g"
+# BASE_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_bending_sensor"
+BASE_DIR = "/home/wensin/Documents/origami_robotic_arm/data/soft_state_100g_near_bending_sensor"
 
 COOR_DIRS = ["coor_0", "coor_1", "coor_2", "coor_3"]
 
@@ -65,14 +65,14 @@ ALL_SAMPLE_FILES = [
     "trajectories_sample_9.h5",
     "trajectories_sample_10.h5",
     "trajectories_sample_11.h5",
-    # "trajectories_sample_12.h5",
-    # "trajectories_sample_13.h5",
-    # "trajectories_sample_14.h5",
-    # "trajectories_sample_15.h5",
-    # "trajectories_sample_16.h5",
-    # "trajectories_sample_17.h5",
-    # "trajectories_sample_18.h5",
-    # "trajectories_sample_19.h5",
+    "trajectories_sample_12.h5",
+    "trajectories_sample_13.h5",
+    "trajectories_sample_14.h5",
+    "trajectories_sample_15.h5",
+    "trajectories_sample_16.h5",
+    "trajectories_sample_17.h5",
+    "trajectories_sample_18.h5",
+    "trajectories_sample_19.h5",
 ]
 
 T_START = 0.0           # time window start (seconds)

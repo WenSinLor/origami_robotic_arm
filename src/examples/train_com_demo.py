@@ -35,7 +35,8 @@ from scipy.io import savemat
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════════
 
-ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+# ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+ROOT_DIR = "/home/wensin/Documents/origami_robotic_arm/data"
 
 DIRS = {
     "base":      f"{ROOT_DIR}/soft_state_100g_bending_sensor",
@@ -72,11 +73,9 @@ COOR_DIRS = ["coor_0", "coor_2"]
 
 OFFSET_TARGETS = {
     -3: np.array([-3.0, 0.0]),
-    -2: np.array([-2.0, 0.0]),
-    +2: np.array([+2.0, 0.0]),
     +3: np.array([+3.0, 0.0]),
 }
-VALID_OFFSETS = np.array([-3, -2, 2, 3], dtype=int)
+VALID_OFFSETS = np.array([-3, 3], dtype=int)
 
 TRAIN_SAMPLES = {
     "coor_0": [
@@ -92,8 +91,8 @@ TRAIN_SAMPLES = {
         ("bar_base", "trajectories_sample_9.h5"),
         ("bar_base", "trajectories_sample_10.h5"),
         ("bar_base", "trajectories_sample_11.h5"),
-        # ("bar_base", "trajectories_sample_12.h5"),
-        # ("bar_base", "trajectories_sample_13.h5"),
+        ("bar_base", "trajectories_sample_12.h5"),
+        ("bar_base", "trajectories_sample_13.h5"),
     ],
     "coor_2": [
         ("bar_base", "trajectories_sample_0.h5"),
@@ -108,8 +107,8 @@ TRAIN_SAMPLES = {
         ("bar_base", "trajectories_sample_9.h5"),
         ("bar_base", "trajectories_sample_10.h5"),
         ("bar_base", "trajectories_sample_11.h5"),
-        # ("bar_base", "trajectories_sample_12.h5"),
-        # ("bar_base", "trajectories_sample_13.h5"),
+        ("bar_base", "trajectories_sample_12.h5"),
+        ("bar_base", "trajectories_sample_13.h5"),
     ],
 }
 
@@ -121,12 +120,12 @@ TEST_SAMPLES = {
         # ("bar_base", "trajectories_sample_11.h5"),
         # ("bar_base", "trajectories_sample_12.h5"),
         # ("bar_base", "trajectories_sample_13.h5"),
-        # ("bar_base", "trajectories_sample_14.h5"),
-        # ("bar_base", "trajectories_sample_15.h5"),
-        # ("bar_base", "trajectories_sample_16.h5"),
-        # ("bar_base", "trajectories_sample_17.h5"),
-        # ("bar_base", "trajectories_sample_18.h5"),
-        # ("bar_base", "trajectories_sample_19.h5"),
+        ("bar_base", "trajectories_sample_14.h5"),
+        ("bar_base", "trajectories_sample_15.h5"),
+        ("bar_base", "trajectories_sample_16.h5"),
+        ("bar_base", "trajectories_sample_17.h5"),
+        ("bar_base", "trajectories_sample_18.h5"),
+        ("bar_base", "trajectories_sample_19.h5"),
 
         # ("bar_outer", "trajectories_sample_0.h5"),
         # ("bar_outer", "trajectories_sample_1.h5"),
@@ -149,36 +148,36 @@ TEST_SAMPLES = {
         # ("bar_outer", "trajectories_sample_18.h5"),
         # ("bar_outer", "trajectories_sample_19.h5"),
 
-        ("bar_near", "trajectories_sample_0.h5"),
-        ("bar_near", "trajectories_sample_1.h5"),
-        ("bar_near", "trajectories_sample_2.h5"),
-        ("bar_near", "trajectories_sample_3.h5"),
-        ("bar_near", "trajectories_sample_4.h5"),
-        ("bar_near", "trajectories_sample_5.h5"),
-        ("bar_near", "trajectories_sample_6.h5"),
-        ("bar_near", "trajectories_sample_7.h5"),
-        ("bar_near", "trajectories_sample_8.h5"),
-        ("bar_near", "trajectories_sample_9.h5"),
-        ("bar_near", "trajectories_sample_10.h5"),
-        ("bar_near", "trajectories_sample_11.h5"),
-        ("bar_near", "trajectories_sample_12.h5"),
-        ("bar_near", "trajectories_sample_13.h5"),
-        ("bar_near", "trajectories_sample_14.h5"),
-        ("bar_near", "trajectories_sample_15.h5"),
-        ("bar_near", "trajectories_sample_16.h5"),
-        ("bar_near", "trajectories_sample_17.h5"),
-        ("bar_near", "trajectories_sample_18.h5"),
-        ("bar_near", "trajectories_sample_19.h5"),
+        # ("bar_near", "trajectories_sample_0.h5"),
+        # ("bar_near", "trajectories_sample_1.h5"),
+        # ("bar_near", "trajectories_sample_2.h5"),
+        # ("bar_near", "trajectories_sample_3.h5"),
+        # ("bar_near", "trajectories_sample_4.h5"),
+        # ("bar_near", "trajectories_sample_5.h5"),
+        # ("bar_near", "trajectories_sample_6.h5"),
+        # ("bar_near", "trajectories_sample_7.h5"),
+        # ("bar_near", "trajectories_sample_8.h5"),
+        # ("bar_near", "trajectories_sample_9.h5"),
+        # ("bar_near", "trajectories_sample_10.h5"),
+        # ("bar_near", "trajectories_sample_11.h5"),
+        # ("bar_near", "trajectories_sample_12.h5"),
+        # ("bar_near", "trajectories_sample_13.h5"),
+        # ("bar_near", "trajectories_sample_14.h5"),
+        # ("bar_near", "trajectories_sample_15.h5"),
+        # ("bar_near", "trajectories_sample_16.h5"),
+        # ("bar_near", "trajectories_sample_17.h5"),
+        # ("bar_near", "trajectories_sample_18.h5"),
+        # ("bar_near", "trajectories_sample_19.h5"),
     ],
     "coor_2": [
         # ("bar_base", "trajectories_sample_12.h5"),
         # ("bar_base", "trajectories_sample_13.h5"),
-        # ("bar_base", "trajectories_sample_14.h5"),
-        # ("bar_base", "trajectories_sample_15.h5"),
-        # ("bar_base", "trajectories_sample_16.h5"),
-        # ("bar_base", "trajectories_sample_17.h5"),
-        # ("bar_base", "trajectories_sample_18.h5"),
-        # ("bar_base", "trajectories_sample_19.h5"),
+        ("bar_base", "trajectories_sample_14.h5"),
+        ("bar_base", "trajectories_sample_15.h5"),
+        ("bar_base", "trajectories_sample_16.h5"),
+        ("bar_base", "trajectories_sample_17.h5"),
+        ("bar_base", "trajectories_sample_18.h5"),
+        ("bar_base", "trajectories_sample_19.h5"),
 
         # ("bar_outer", "trajectories_sample_0.h5"),
         # ("bar_outer", "trajectories_sample_1.h5"),
@@ -201,26 +200,26 @@ TEST_SAMPLES = {
         # ("bar_outer", "trajectories_sample_18.h5"),
         # ("bar_outer", "trajectories_sample_19.h5"),
 
-        ("bar_near", "trajectories_sample_0.h5"),
-        ("bar_near", "trajectories_sample_1.h5"),
-        ("bar_near", "trajectories_sample_2.h5"),
-        ("bar_near", "trajectories_sample_3.h5"),
-        ("bar_near", "trajectories_sample_4.h5"),
-        ("bar_near", "trajectories_sample_5.h5"),
-        ("bar_near", "trajectories_sample_6.h5"),
-        ("bar_near", "trajectories_sample_7.h5"),
-        ("bar_near", "trajectories_sample_8.h5"),
-        ("bar_near", "trajectories_sample_9.h5"),
-        ("bar_near", "trajectories_sample_10.h5"),
-        ("bar_near", "trajectories_sample_11.h5"),
-        ("bar_near", "trajectories_sample_12.h5"),
-        ("bar_near", "trajectories_sample_13.h5"),
-        ("bar_near", "trajectories_sample_14.h5"),
-        ("bar_near", "trajectories_sample_15.h5"),
-        ("bar_near", "trajectories_sample_16.h5"),
-        ("bar_near", "trajectories_sample_17.h5"),
-        ("bar_near", "trajectories_sample_18.h5"),
-        ("bar_near", "trajectories_sample_19.h5"),
+        # ("bar_near", "trajectories_sample_0.h5"),
+        # ("bar_near", "trajectories_sample_1.h5"),
+        # ("bar_near", "trajectories_sample_2.h5"),
+        # ("bar_near", "trajectories_sample_3.h5"),
+        # ("bar_near", "trajectories_sample_4.h5"),
+        # ("bar_near", "trajectories_sample_5.h5"),
+        # ("bar_near", "trajectories_sample_6.h5"),
+        # ("bar_near", "trajectories_sample_7.h5"),
+        # ("bar_near", "trajectories_sample_8.h5"),
+        # ("bar_near", "trajectories_sample_9.h5"),
+        # ("bar_near", "trajectories_sample_10.h5"),
+        # ("bar_near", "trajectories_sample_11.h5"),
+        # ("bar_near", "trajectories_sample_12.h5"),
+        # ("bar_near", "trajectories_sample_13.h5"),
+        # ("bar_near", "trajectories_sample_14.h5"),
+        # ("bar_near", "trajectories_sample_15.h5"),
+        # ("bar_near", "trajectories_sample_16.h5"),
+        # ("bar_near", "trajectories_sample_17.h5"),
+        # ("bar_near", "trajectories_sample_18.h5"),
+        # ("bar_near", "trajectories_sample_19.h5"),
     ],
 }
 
@@ -230,7 +229,8 @@ T_END   = 3.0
 EXCLUDE_MARKERS = []
 NORMALIZE_ENERGY = False
 
-# Dynamic-summary settings
+# Feature settings
+FEATURE_MODE = "raw_time_series"  # "dynamic_summary" or "raw_time_series"
 EARLY_FRAC = 0.35
 LATE_FRAC  = 0.35
 
@@ -240,7 +240,7 @@ USE_PCA = False
 PCA_VARIANCE = 0.95
 USE_COSINE_DECODE = False
 
-OUTPUT_DIR = f"{ROOT_DIR}/com_demo_60g_near"
+OUTPUT_DIR = f"{ROOT_DIR}/com_demo_60g"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -407,6 +407,29 @@ def extract_dynamic_summary_feature(disp, time, t_start, t_end, exclude_markers)
     feat = build_dynamic_summary_feature(X)
     return feat, ts
 
+def feature_mode_label():
+    if FEATURE_MODE == "dynamic_summary":
+        return "Dynamic-summary"
+    if FEATURE_MODE == "raw_time_series":
+        return "Raw time-series frame-level"
+    raise ValueError(
+        f"Unsupported FEATURE_MODE={FEATURE_MODE!r}; "
+        "use 'dynamic_summary' or 'raw_time_series'."
+    )
+
+def extract_model_feature(disp, time, t_start, t_end, exclude_markers):
+    X, ts = extract_features(disp, time, t_start, t_end, exclude_markers)
+    if FEATURE_MODE == "dynamic_summary":
+        feat = build_dynamic_summary_feature(X)
+    elif FEATURE_MODE == "raw_time_series":
+        feat = X
+    else:
+        raise ValueError(
+            f"Unsupported FEATURE_MODE={FEATURE_MODE!r}; "
+            "use 'dynamic_summary' or 'raw_time_series'."
+        )
+    return feat, ts
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # DYNAMIC-SUMMARY RIDGE REGRESSOR
@@ -419,7 +442,7 @@ def fit_dynamic_summary_offset(train_samples_dict, ridge_alpha=1.0,
     summary_dim = None
 
     print("=" * 72)
-    print("  Building dynamic-summary training matrix")
+    print(f"  Building {feature_mode_label()} training matrix")
     print("=" * 72)
 
     for coor_name in ACTIVE_CLASSES:
@@ -436,7 +459,7 @@ def fit_dynamic_summary_offset(train_samples_dict, ridge_alpha=1.0,
 
             disp, time = load_h5(p)
             X_raw, _ = extract_features(disp, time, T_START, T_END, EXCLUDE_MARKERS)
-            feat, ts = extract_dynamic_summary_feature(
+            feat, ts = extract_model_feature(
                 disp, time, T_START, T_END, EXCLUDE_MARKERS
             )
             tgt = get_target_xy(dir_key, coor_name)
@@ -445,15 +468,27 @@ def fit_dynamic_summary_offset(train_samples_dict, ridge_alpha=1.0,
                 coord_dim = disp.shape[2]
                 D = X_raw.shape[1]
                 N = D // coord_dim
-                summary_dim = feat.shape[0]
+                summary_dim = feat.shape[1] if feat.ndim == 2 else feat.shape[0]
+            elif (feat.shape[1] if feat.ndim == 2 else feat.shape[0]) != summary_dim:
+                raise ValueError(
+                    f"Feature dimension changed from {summary_dim} to "
+                    f"{feat.shape[1] if feat.ndim == 2 else feat.shape[0]} "
+                    f"for {coor_name}/{fname}."
+                )
 
-            X_rows.append(feat)
-            Y_rows.append(tgt)
+            if FEATURE_MODE == "raw_time_series":
+                X_rows.append(feat)
+                Y_rows.append(np.tile(tgt, (len(feat), 1)))
+                row_count = len(feat)
+            else:
+                X_rows.append(feat)
+                Y_rows.append(tgt)
+                row_count = 1
 
             print(
                 f"  + [{dir_key}] {coor_name}/{fname}  "
                 f"offset={get_offset(dir_key, coor_name):+d}  "
-                f"raw_dim={X_raw.shape[1]}  summary_dim={feat.shape[0]}"
+                f"raw_dim={X_raw.shape[1]}  feature_dim={summary_dim}  rows={row_count}"
             )
 
     if not X_rows:
@@ -485,7 +520,8 @@ def fit_dynamic_summary_offset(train_samples_dict, ridge_alpha=1.0,
     model.fit(Z, Y_train)
 
     print(f"\n  Raw state dim      : {D}")
-    print(f"  Summary feature dim: {summary_dim}")
+    print(f"  Feature mode       : {FEATURE_MODE}")
+    print(f"  Feature vector dim : {summary_dim}")
     print(f"  Train matrix       : {Z.shape} -> {Y_train.shape}")
     print(f"  Ridge alpha        : {ridge_alpha}")
     print(f"  Normalize energy   : {NORMALIZE_ENERGY}")
@@ -514,14 +550,15 @@ def run_dynamic_summary_offset(samples_dict, model, pca, mu, std, label=""):
                 continue
 
             disp, time = load_h5(p)
-            feat, ts = extract_dynamic_summary_feature(
+            feat, ts = extract_model_feature(
                 disp, time, T_START, T_END, EXCLUDE_MARKERS
             )
 
-            x = feat[None, :]
+            x = feat if feat.ndim == 2 else feat[None, :]
             xn = (x - mu) / std
             z = pca.transform(xn) if pca is not None else xn
-            mean_xy = model.predict(z)[0]
+            y_hat = model.predict(z)
+            mean_xy = y_hat.mean(axis=0)
 
             true_offset = get_offset(dir_key, coor_name)
             pred_offset = decode_offset(mean_xy)
@@ -558,20 +595,46 @@ def run_dynamic_summary_offset(samples_dict, model, pca, mu, std, label=""):
 # FIGURES
 # ══════════════════════════════════════════════════════════════════════════════
 
+VT_MAROON = "#861F41"
+VT_ORANGE = "#E5751F"
+VT_STONE = "#75787B"
+VT_DARK_STONE = "#54585A"
+VT_LIGHT_STONE = "#D7D2CB"
+VT_PALE_MAROON = "#F2E8ED"
+VT_PALE_ORANGE = "#FBE9DC"
+VT_GOLD = "#B3A369"
+VT_TEAL = "#508590"
+
+PLOT_FONT_SIZES = {
+    "base": 9,
+    "axis_label": 9,
+    "tick": 8,
+    "legend": 7.5,
+    "title": 10,
+    "panel_title": 9,
+    "suptitle": 10,
+    "annotation": 7,
+    "matrix_cell": 8,
+    "class_label": 8,
+    "colorbar_label": 8,
+    "colorbar_tick": 7,
+}
+
 NATURE_RC = {
-    "font.family":        "sans-serif",
-    "font.sans-serif":    ["Helvetica Neue", "Helvetica", "Arial"],
-    "font.size":          7,
-    "axes.titlesize":     8,
-    "axes.labelsize":     7,
-    "xtick.labelsize":    6.5,
-    "ytick.labelsize":    6.5,
-    "legend.fontsize":    6.5,
-    "axes.linewidth":     0.6,
-    "xtick.major.width":  0.6,
-    "ytick.major.width":  0.6,
-    "xtick.major.size":   2.5,
-    "ytick.major.size":   2.5,
+    "font.family":        "serif",
+    "font.serif":         ["Times New Roman", "Times", "DejaVu Serif"],
+    "mathtext.fontset":   "stix",
+    "font.size":          PLOT_FONT_SIZES["base"],
+    "axes.titlesize":     PLOT_FONT_SIZES["panel_title"],
+    "axes.labelsize":     PLOT_FONT_SIZES["axis_label"],
+    "xtick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "ytick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "legend.fontsize":    PLOT_FONT_SIZES["legend"],
+    "axes.linewidth":     0.7,
+    "xtick.major.width":  0.7,
+    "ytick.major.width":  0.7,
+    "xtick.major.size":   3.0,
+    "ytick.major.size":   3.0,
     "axes.spines.top":    False,
     "axes.spines.right":  False,
     "figure.dpi":         300,
@@ -589,21 +652,21 @@ DIR_MARKERS = {
 }
 
 DIR_BG = {
-    "base": "#EEF4FB",
-    "near": "#FFF8EE",
-    "bar_base": "#EEF4FB",
-    "bar_near": "#FFF8EE",
-    "bar_outer": "#F5EEFF",
+    "base": VT_PALE_MAROON,
+    "near": VT_PALE_ORANGE,
+    "bar_base": VT_PALE_MAROON,
+    "bar_near": VT_PALE_ORANGE,
+    "bar_outer": "#F1F0ED",
 }
 
 def plot_trial_points_offset(results, train_acc, test_acc, out_path):
     offset_colors = {
-        -4: "#17becf",
-        -3: "#1f77b4",
-        -2: "#2ca02c",
-        +2: "#d62728",
-        +3: "#9467bd",
-        +4: "#ff7f0e",
+        -4: VT_TEAL,
+        -3: VT_MAROON,
+        -2: VT_ORANGE,
+        +2: VT_GOLD,
+        +3: VT_DARK_STONE,
+        +4: "#C64600",
     }
 
     with plt.rc_context(NATURE_RC):
@@ -611,11 +674,12 @@ def plot_trial_points_offset(results, train_acc, test_acc, out_path):
 
         for off, tgt in OFFSET_TARGETS.items():
             ax.scatter(tgt[0], tgt[1], marker="*", s=160,
-                       color=offset_colors[off], edgecolor="#333333",
+                       color=offset_colors[off], edgecolor=VT_DARK_STONE,
                        linewidths=0.6, zorder=5)
             ax.text(tgt[0], tgt[1] + 0.18, f"{off:+d}",
                     ha="center", va="bottom",
-                    fontsize=6, fontweight="bold", color=offset_colors[off])
+                    fontsize=PLOT_FONT_SIZES["class_label"],
+                    fontweight="bold", color=offset_colors[off])
 
         for r in results:
             x, y = r["mean_xy"]
@@ -626,14 +690,18 @@ def plot_trial_points_offset(results, train_acc, test_acc, out_path):
             else:
                 ax.scatter(x, y, s=36, marker="x", color=col, linewidths=1.0, zorder=6)
 
-        ax.axhline(0, color="#BBBBBB", lw=0.7)
-        ax.axvline(0, color="#BBBBBB", lw=0.7)
+        ax.axhline(0, color=VT_LIGHT_STONE, lw=0.7)
+        ax.axvline(0, color=VT_LIGHT_STONE, lw=0.7)
         ax.set_xlim(-4.6, 4.6)
         ax.set_ylim(-1.4, 1.4)
-        ax.set_xlabel("Readout x")
-        ax.set_ylabel("Readout y")
+        ax.set_xlabel("Readout x", fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.set_ylabel("Readout y", fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
         ax.set_title(
-            f"Dynamic-summary COM readout\ntrain acc={train_acc*100:.0f}%  test acc={test_acc*100:.0f}%"
+            f"{feature_mode_label()} COM readout\n"
+            f"train acc={train_acc*100:.0f}%  test acc={test_acc*100:.0f}%",
+            fontsize=PLOT_FONT_SIZES["title"], fontweight="bold",
+            color=VT_MAROON
         )
 
         fig.savefig(str(out_path))
@@ -647,10 +715,10 @@ def plot_confusion_matrix_offset(cm_raw, class_order, train_acc, test_acc, out_p
     cm_norm = np.where(row_sum > 0, cm_raw / row_sum, 0.0)
 
     cmap_count = LinearSegmentedColormap.from_list(
-        "nat_blue", ["#F7FBFF", "#C6DBEF", "#6BAED6", "#2171B5", "#08306B"]
+        "vt_maroon", ["#FFFFFF", VT_PALE_MAROON, "#C89AAE", VT_MAROON]
     )
     cmap_recall = LinearSegmentedColormap.from_list(
-        "nat_green", ["#F7FCF5", "#C7E9C0", "#74C476", "#238B45", "#00441B"]
+        "vt_orange", ["#FFFFFF", VT_PALE_ORANGE, "#F1B889", VT_ORANGE]
     )
 
     with plt.rc_context(NATURE_RC):
@@ -666,16 +734,19 @@ def plot_confusion_matrix_offset(cm_raw, class_order, train_acc, test_acc, out_p
             im = ax.imshow(data, cmap=cmap, vmin=0, vmax=vm,
                            interpolation="nearest", aspect="equal")
             cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, shrink=0.80)
-            cb.set_label(cbar_label, labelpad=4, fontsize=6)
-            cb.ax.tick_params(labelsize=5.5, width=0.5, length=2, pad=2)
+            cb.set_label(cbar_label, labelpad=4,
+                         fontsize=PLOT_FONT_SIZES["colorbar_label"])
+            cb.ax.tick_params(labelsize=PLOT_FONT_SIZES["colorbar_tick"],
+                              width=0.5, length=2, pad=2)
             cb.outline.set_linewidth(0.4)
 
             ax.set_xticks(range(C))
             ax.set_xticklabels([f"{v:+d}" for v in vals], rotation=30, ha="right")
             ax.set_yticks(range(C))
             ax.set_yticklabels([f"{v:+d}" for v in vals])
-            ax.set_xlabel("Predicted offset")
-            ax.set_ylabel("True offset")
+            ax.set_xlabel("Predicted offset", fontsize=PLOT_FONT_SIZES["axis_label"])
+            ax.set_ylabel("True offset", fontsize=PLOT_FONT_SIZES["axis_label"])
+            ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
 
             thresh = vm * 0.55
             for i in range(C):
@@ -683,8 +754,9 @@ def plot_confusion_matrix_offset(cm_raw, class_order, train_acc, test_acc, out_p
                     v = data[i, j]
                     ax.text(j, i, f"{v:{fmt}}",
                             ha="center", va="center",
-                            fontsize=5.5, fontweight="bold",
-                            color="white" if v > thresh else "#333333")
+                            fontsize=PLOT_FONT_SIZES["matrix_cell"],
+                            fontweight="bold",
+                            color="white" if v > thresh else VT_DARK_STONE)
 
             for k in range(C + 1):
                 ax.axhline(k - 0.5, color="white", lw=0.4)
@@ -695,12 +767,13 @@ def plot_confusion_matrix_offset(cm_raw, class_order, train_acc, test_acc, out_p
             for spine in ax.spines.values():
                 spine.set_linewidth(0.4)
 
-        axes[0].set_title("Count")
-        axes[1].set_title("Recall")
+        axes[0].set_title("Count", fontsize=PLOT_FONT_SIZES["panel_title"])
+        axes[1].set_title("Recall", fontsize=PLOT_FONT_SIZES["panel_title"])
         fig.suptitle(
             f"Offset confusion matrix  (train acc = {train_acc*100:.0f}%,  "
             f"test acc = {test_acc*100:.0f}%)",
-            fontsize=7.5, fontweight="bold", y=1.03
+            fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold", y=1.03,
+            color=VT_MAROON
         )
         fig.savefig(str(out_path))
         plt.close(fig)
@@ -720,26 +793,28 @@ def plot_pca_offset(model_pca, mu, std, train_samples_dict, test_samples_dict, o
             if not p.exists():
                 continue
             disp, time = load_h5(p)
-            feat, _ = extract_dynamic_summary_feature(
+            feat, _ = extract_model_feature(
                 disp, time, T_START, T_END, EXCLUDE_MARKERS
             )
-            train_proj[cname].append(model_pca.transform(((feat[None, :] - mu) / std)))
+            x = feat if feat.ndim == 2 else feat[None, :]
+            train_proj[cname].append(model_pca.transform((x - mu) / std))
 
         for dir_key, fname in test_samples_dict.get(cname, []):
             p = resolve(dir_key, cname, fname)
             if not p.exists():
                 continue
             disp, time = load_h5(p)
-            feat, _ = extract_dynamic_summary_feature(
+            feat, _ = extract_model_feature(
                 disp, time, T_START, T_END, EXCLUDE_MARKERS
             )
-            test_proj[cname].append(model_pca.transform(((feat[None, :] - mu) / std)))
+            x = feat if feat.ndim == 2 else feat[None, :]
+            test_proj[cname].append(model_pca.transform((x - mu) / std))
 
     for cname in ACTIVE_CLASSES:
         train_proj[cname] = np.vstack(train_proj[cname]) if train_proj[cname] else np.empty((0, model_pca.n_components_))
         test_proj[cname] = np.vstack(test_proj[cname]) if test_proj[cname] else np.empty((0, model_pca.n_components_))
 
-    colors = {"coor_0": "#d62728", "coor_2": "#1f77b4"}
+    colors = {"coor_0": VT_MAROON, "coor_2": VT_ORANGE}
 
     with plt.rc_context(NATURE_RC):
         fig, ax = plt.subplots(figsize=(3.8, 3.2))
@@ -756,10 +831,14 @@ def plot_pca_offset(model_pca, mu, std, train_samples_dict, test_samples_dict, o
                 ax.scatter(Xt[:, 0], Xt[:, 1] if model_pca.n_components_ > 1 else np.zeros(len(Xt)),
                            facecolors="none", edgecolors=col, s=18, alpha=0.7, label=f"{cname} test")
 
-        ax.set_xlabel("PC1")
-        ax.set_ylabel("PC2")
-        ax.set_title("Dynamic-summary PCA space")
-        ax.legend(fontsize=5.5, loc="best")
+        ax.set_xlabel("PC1", fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.set_ylabel("PC2", fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.set_title(f"{feature_mode_label()} PCA space",
+                     fontsize=PLOT_FONT_SIZES["title"], fontweight="bold",
+                     color=VT_MAROON)
+        ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
+        ax.legend(fontsize=PLOT_FONT_SIZES["legend"], loc="best",
+                  frameon=True, framealpha=0.92, edgecolor=VT_LIGHT_STONE)
         fig.savefig(str(out_path))
         plt.close(fig)
     print(f"  Saved → {out_path}")
@@ -774,13 +853,14 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"\n{'═'*72}")
-    print("  COM Demo — Dynamic-Summary 2D Ridge Regressor")
+    print(f"  COM Demo — {feature_mode_label()} 2D Ridge Regressor")
     print(f"{'═'*72}")
     print("  Train samples per class:")
     summarise_samples(TRAIN_SAMPLES)
     print("  Test samples per class:")
     summarise_samples(TEST_SAMPLES)
     print(f"  Time window       : {T_START}–{T_END} s")
+    print(f"  Feature mode      : {FEATURE_MODE}")
     print(f"  Ridge alpha       : {RIDGE_ALPHA}")
     print(f"  Normalize energy  : {NORMALIZE_ENERGY}")
     print(f"  Use PCA           : {USE_PCA}")
@@ -809,6 +889,7 @@ def main():
         "EARLY_FRAC": EARLY_FRAC,
         "LATE_FRAC": LATE_FRAC,
         "summary_dim": summary_dim,
+        "feature_mode": FEATURE_MODE,
         "raw_dim": D,
         "n_markers": N,
         "normalize_energy": int(NORMALIZE_ENERGY),
@@ -856,21 +937,21 @@ def main():
         cm = confusion_matrix(te_true, te_pred, labels=labels_sorted)
         plot_confusion_matrix_offset(
             cm, labels_sorted, train_acc, test_acc,
-            out_dir / "dynamic_summary_confusion_matrix.svg"
+            out_dir / "dynamic_summary_confusion_matrix.pdf"
         )
 
     plot_trial_points_offset(
         results, train_acc, test_acc,
-        out_dir / "dynamic_summary_readout_points.png"
+        out_dir / "dynamic_summary_readout_points.pdf"
     )
 
     plot_pca_offset(
         pca, mu, std, TRAIN_SAMPLES, TEST_SAMPLES,
-        out_dir / "dynamic_summary_pca.png"
+        out_dir / "dynamic_summary_pca.pdf"
     )
 
     print(f"\n  Raw state dim        : {D}")
-    print(f"  Summary feature dim  : {summary_dim}")
+    print(f"  Feature vector dim   : {summary_dim}")
     print(f"  Done. Outputs → {out_dir.resolve()}")
 
 

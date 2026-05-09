@@ -17,6 +17,7 @@ import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 from sklearn.decomposition import PCA
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -26,7 +27,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════════
 
-ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+# ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+ROOT_DIR = "/home/wensin/Documents/origami_robotic_arm/data"
 
 DIRS = {
     "base":      f"{ROOT_DIR}/soft_state_100g_bending_sensor",
@@ -342,7 +344,6 @@ def extract_dynamic_summary_feature(disp, time, t_start, t_end, exclude_markers)
     feat = build_dynamic_summary_feature(X)
     return feat, ts
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 # SCALAR RIDGE REGRESSOR
 # ══════════════════════════════════════════════════════════════════════════════
@@ -483,27 +484,96 @@ def run_scalar_regressor(samples_dict, model, pca, mu, std, label=""):
 # PLOTS
 # ══════════════════════════════════════════════════════════════════════════════
 
+VT_MAROON = "#861F41"
+VT_ORANGE = "#E5751F"
+VT_STONE = "#75787B"
+VT_DARK_STONE = "#54585A"
+VT_LIGHT_STONE = "#D7D2CB"
+VT_PALE_MAROON = "#F2E8ED"
+VT_GOLD = "#B3A369"
+VT_TEAL = "#508590"
+
+PLOT_FONT_SIZES = {
+    "base": 9,
+    "axis_label": 9,
+    "tick": 8,
+    "legend": 7.5,
+    "title": 10,
+    "panel_title": 9,
+    "suptitle": 10,
+    "annotation": 7,
+}
+
+NATURE_RC = {
+    "font.family":        "serif",
+    "font.serif":         ["Times New Roman", "Times", "DejaVu Serif"],
+    "mathtext.fontset":   "stix",
+    "font.size":          PLOT_FONT_SIZES["base"],
+    "axes.titlesize":     PLOT_FONT_SIZES["panel_title"],
+    "axes.labelsize":     PLOT_FONT_SIZES["axis_label"],
+    "xtick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "ytick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "legend.fontsize":    PLOT_FONT_SIZES["legend"],
+    "axes.linewidth":     0.7,
+    "xtick.major.width":  0.7,
+    "ytick.major.width":  0.7,
+    "xtick.major.size":   3.0,
+    "ytick.major.size":   3.0,
+    "axes.spines.top":    False,
+    "axes.spines.right":  False,
+    "figure.dpi":         300,
+    "savefig.dpi":        300,
+    "savefig.bbox":       "tight",
+    "savefig.pad_inches": 0.05,
+}
+
 def plot_regression_scatter(rows, out_path):
-    fig, ax = plt.subplots(figsize=(4.2, 3.6))
+    with plt.rc_context(NATURE_RC):
+        fig, ax = plt.subplots(figsize=(4.2, 3.6))
 
-    xs = [r["true_offset"] for r in rows]
-    ys = [r["pred_cont"] for r in rows]
+        xs = [r["true_offset"] for r in rows]
+        ys = [r["pred_cont"] for r in rows]
+        colors = [VT_MAROON if r["true_offset"] < 0 else VT_ORANGE for r in rows]
+        markers = ["o" if r["pred_round"] == r["true_offset"] else "x" for r in rows]
 
-    ax.scatter(xs, ys, s=30, alpha=0.8)
+        for x, y, color, marker in zip(xs, ys, colors, markers):
+            if marker == "x":
+                ax.scatter(x, y, s=38, marker=marker, color=color,
+                           linewidths=1.0, alpha=0.9)
+            else:
+                ax.scatter(x, y, s=34, marker=marker, color=color,
+                           edgecolors=VT_DARK_STONE, linewidths=0.4, alpha=0.85)
 
-    lo = min(xs + ys) - 0.5
-    hi = max(xs + ys) + 0.5
-    ax.plot([lo, hi], [lo, hi], "--", linewidth=1.0)
+        lo = min(xs + ys) - 0.5
+        hi = max(xs + ys) + 0.5
+        ax.plot([lo, hi], [lo, hi], "--", color=VT_STONE, linewidth=1.0,
+                label="ideal")
 
-    ax.set_xlabel("True offset")
-    ax.set_ylabel("Predicted continuous offset")
-    ax.set_title("Dynamic-summary scalar regression")
-    ax.set_xlim(lo, hi)
-    ax.set_ylim(lo, hi)
+        handles = [
+            Line2D([0], [0], marker="o", color="none", label="negative true offset",
+                   markerfacecolor=VT_MAROON, markeredgecolor=VT_DARK_STONE,
+                   markersize=5),
+            Line2D([0], [0], marker="o", color="none", label="positive true offset",
+                   markerfacecolor=VT_ORANGE, markeredgecolor=VT_DARK_STONE,
+                   markersize=5),
+            Line2D([0], [0], color=VT_STONE, linestyle="--", label="ideal"),
+        ]
+        ax.legend(handles=handles, fontsize=PLOT_FONT_SIZES["legend"],
+                  frameon=True, framealpha=0.92, edgecolor=VT_LIGHT_STONE)
 
-    fig.tight_layout()
-    fig.savefig(out_path, dpi=300)
-    plt.close(fig)
+        ax.set_xlabel("True offset", fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.set_ylabel("Predicted continuous offset",
+                      fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.set_title("Dynamic-summary scalar regression",
+                     fontsize=PLOT_FONT_SIZES["title"], fontweight="bold",
+                     color=VT_MAROON)
+        ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
+        ax.set_xlim(lo, hi)
+        ax.set_ylim(lo, hi)
+
+        fig.tight_layout()
+        fig.savefig(out_path)
+        plt.close(fig)
     print(f"  Saved → {out_path}")
 
 
@@ -563,7 +633,7 @@ def main():
     print(f"  Test R^2         : {test_r2:.4f}")
     print(f"  Test round-acc   : {test_round_acc*100:.1f}%")
 
-    plot_regression_scatter(rows, out_dir / "scalar_regression_scatter.png")
+    plot_regression_scatter(rows, out_dir / "scalar_regression_scatter.pdf")
 
     print(f"\n  Raw state dim        : {raw_dim}")
     print(f"  Summary feature dim  : {summary_dim}")

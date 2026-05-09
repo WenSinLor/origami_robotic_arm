@@ -28,7 +28,8 @@ from sklearn.linear_model import Ridge
 #  CONFIG
 # ══════════════════════════════════════════════════════════════════════════════
 
-ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+# ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+ROOT_DIR = "/home/wensin/Documents/origami_robotic_arm/data"
 
 DIRS = {
     "base": f"{ROOT_DIR}/soft_state_100g",
@@ -41,9 +42,9 @@ TARGET_MARKER_IDS = [4, 9, 13, 18]
 
 TRAIN_SAMPLES = [
     ("base", "trajectories_sample_0.h5"),
+    ("base", "trajectories_sample_1.h5"),
     ("base", "trajectories_sample_2.h5"),
-    # ("base", "trajectories_sample_2.h5"),
-    # ("base", "trajectories_sample_3.h5"),
+    ("base", "trajectories_sample_3.h5"),
     # ("base", "trajectories_sample_4.h5"),
     # ("base", "trajectories_sample_5.h5"),
     # ("base", "trajectories_sample_6.h5"),
@@ -51,7 +52,7 @@ TRAIN_SAMPLES = [
 ]
 
 TEST_SAMPLES = [
-    ("base", "trajectories_sample_3.h5"),
+    ("base", "trajectories_sample_7.h5"),
 ]
 
 T_START        = 0.0
@@ -61,17 +62,53 @@ RIDGE_ALPHA    = 1e-3
 
 OUTPUT_DIR = f"{ROOT_DIR}/soft_state_100g"
 
-PALETTE = ["#0072B2", "#E69F00", "#009E73", "#CC79A7",
-           "#56B4E9", "#D55E00", "#F0E442", "#000000"]
+VT_MAROON = "#861F41"
+VT_ORANGE = "#E5751F"
+VT_STONE = "#75787B"
+VT_DARK_STONE = "#54585A"
+VT_LIGHT_STONE = "#D7D2CB"
+VT_PALE_MAROON = "#F2E8ED"
+VT_GOLD = "#B3A369"
+VT_TEAL = "#508590"
+
+PLOT_FONT_SIZES = {
+    "base": 9,
+    "axis_label": 9,
+    "tick": 8,
+    "legend": 7.5,
+    "title": 10,
+    "panel_title": 9,
+    "suptitle": 10,
+    "annotation": 7,
+    "marker_label": 8,
+    "legend_title": 7,
+}
 
 NATURE_RC = {
-    "font.family": "sans-serif", "font.sans-serif": ["Helvetica Neue", "Arial"],
-    "font.size": 7, "axes.labelsize": 7, "axes.titlesize": 8,
-    "xtick.labelsize": 6.5, "ytick.labelsize": 6.5, "legend.fontsize": 6.5,
-    "axes.linewidth": 0.6, "axes.spines.top": False, "axes.spines.right": False,
-    "figure.dpi": 300, "savefig.dpi": 300,
-    "savefig.bbox": "tight", "savefig.pad_inches": 0.05,
+    "font.family":        "serif",
+    "font.serif":         ["Times New Roman", "Times", "DejaVu Serif"],
+    "mathtext.fontset":   "stix",
+    "font.size":          PLOT_FONT_SIZES["base"],
+    "axes.titlesize":     PLOT_FONT_SIZES["panel_title"],
+    "axes.labelsize":     PLOT_FONT_SIZES["axis_label"],
+    "xtick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "ytick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "legend.fontsize":    PLOT_FONT_SIZES["legend"],
+    "axes.linewidth":     0.7,
+    "xtick.major.width":  0.7,
+    "ytick.major.width":  0.7,
+    "xtick.major.size":   3.0,
+    "ytick.major.size":   3.0,
+    "axes.spines.top":    False,
+    "axes.spines.right":  False,
+    "figure.dpi":         300,
+    "savefig.dpi":        300,
+    "savefig.bbox":       "tight",
+    "savefig.pad_inches": 0.05,
 }
+
+PALETTE = [VT_MAROON, VT_ORANGE, VT_TEAL, VT_GOLD,
+           VT_STONE, "#C64600", VT_DARK_STONE, "#2C2A29"]
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -193,7 +230,7 @@ def compute_metrics(y_pred, y_true, marker_ids):
             peak  = float(e.max()),
         )
         print(f"  Marker {m}: R²(2D)={stats[m]['r2_2d']:.4f}  "
-              f"RMS={stats[m]['rms']:.3f}px  "
+              f"RMSE={stats[m]['rms']:.3f}px  "
               f"mean={stats[m]['mean']:.3f}px  "
               f"peak={stats[m]['peak']:.3f}px")
     return stats
@@ -220,13 +257,13 @@ def plot_absolute(label, pos_abs, time, y_pred, y_true,
             seed_x = pos_abs[i0:i0 + HISTORY_WINDOW, m, 0]
             seed_y = pos_abs[i0:i0 + HISTORY_WINDOW, m, 1]
             ax.plot(seed_x, seed_y,
-                    color=col, lw=0.8, ls=":", alpha=0.35, zorder=2)
+                    color=col, lw=0.8, ls=":", alpha=0.32, zorder=2)
 
             # True test portion (grey dotted)
             true_x = pos_abs[abs_start:abs_start + T_pred, m, 0]
             true_y = pos_abs[abs_start:abs_start + T_pred, m, 1]
             ax.plot(true_x, true_y,
-                    color="#888888", lw=1.1, ls=":", alpha=0.85, zorder=3)
+                    color=VT_STONE, lw=1.1, ls=":", alpha=0.9, zorder=3)
 
             # Predicted (solid colour)
             split_abs_x = float(pos_abs[abs_start, m, 0])
@@ -237,38 +274,44 @@ def plot_absolute(label, pos_abs, time, y_pred, y_true,
                     color=col, lw=1.4, alpha=0.9, zorder=4,
                     label=(f"Marker {m}  "
                            f"R²={stats[m]['r2_2d']:.4f}  "
-                           f"RMS={stats[m]['rms']:.2f}px"))
+                           f"RMSE={stats[m]['rms']:.2f}px"))
 
             # Start / end on true test portion
             ax.scatter(true_x[0],  true_y[0],  marker="o", s=30,
-                       color=col, zorder=7, edgecolors="black", lw=0.6)
+                       color=col, zorder=7, edgecolors=VT_DARK_STONE, lw=0.6)
             ax.scatter(true_x[-1], true_y[-1], marker="s", s=30,
-                       color=col, zorder=7, edgecolors="black", lw=0.6)
+                       color=col, zorder=7, edgecolors=VT_DARK_STONE, lw=0.6)
             ax.annotate("start", xy=(true_x[0], true_y[0]),
                         xytext=(0, 5), textcoords="offset points",
-                        fontsize=5, color="#333333", ha="center", va="bottom")
+                        fontsize=PLOT_FONT_SIZES["annotation"],
+                        color=VT_DARK_STONE, ha="center", va="bottom")
             ax.annotate("end", xy=(true_x[-1], true_y[-1]),
                         xytext=(0, 5), textcoords="offset points",
-                        fontsize=5, color="#333333", ha="center", va="bottom")
+                        fontsize=PLOT_FONT_SIZES["annotation"],
+                        color=VT_DARK_STONE, ha="center", va="bottom")
 
             # Marker label
             ax.text(float(np.nanmean(true_x)), float(np.nanmean(true_y)),
-                    str(m), fontsize=6, fontweight="bold", color=col,
+                    str(m), fontsize=PLOT_FONT_SIZES["marker_label"],
+                    fontweight="bold", color=col,
                     ha="center", va="center",
                     bbox=dict(boxstyle="round,pad=0.15", fc="white",
                               alpha=0.75, ec=col, lw=0.6), zorder=6)
 
         ax.invert_yaxis()
-        ax.set_xlabel("x (px)")
-        ax.set_ylabel("y (px)  [video frame coords]")
+        ax.set_xlabel("x (px)", fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.set_ylabel("y (px)  [video frame coords]",
+                      fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
         ax.set_aspect("equal", adjustable="datalim")
-        ax.legend(loc="lower left", fontsize=6, frameon=True, framealpha=0.92,
-                  edgecolor="#DDDDDD",
+        ax.legend(loc="lower left", fontsize=PLOT_FONT_SIZES["legend"],
+                  frameon=True, framealpha=0.94, edgecolor=VT_LIGHT_STONE,
                   title=f"faint=seed ({HISTORY_WINDOW} fr)  "
                         f"grey·=true  solid=predicted",
-                  title_fontsize=5.5)
+                  title_fontsize=PLOT_FONT_SIZES["legend_title"])
         fig.suptitle(f"Trajectory prediction — {label}",
-                     fontsize=8, fontweight="bold")
+                     fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+                     color=VT_MAROON)
         fig.tight_layout()
         fig.savefig(str(out_path))
         plt.close(fig)
@@ -299,17 +342,24 @@ def plot_phase(label, y_pred, y_true, ts, marker_ids, stats, out_path):
             for j, (dim, label_dim) in enumerate([("x", ix), ("y", iy)]):
                 ax = axes[i, j]
                 ax.plot(ts, y_true[:, label_dim],
-                        color="#AAAAAA", lw=1.0, label="true", zorder=3)
+                        color=VT_STONE, lw=1.0, label="true", zorder=3)
                 ax.plot(ts, y_pred[:, label_dim],
                         color=col, lw=1.0, label="pred", alpha=0.9, zorder=4)
-                ax.set_xlabel("time (s)")
-                ax.set_ylabel(f"{dim} displacement (px)")
-                ax.set_title(f"Marker {m} — {dim}(t)", fontsize=7)
+                ax.set_xlabel("time (s)", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.set_ylabel(f"{dim} displacement (px)",
+                              fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.set_title(f"Marker {m} — {dim}(t)",
+                             fontsize=PLOT_FONT_SIZES["panel_title"],
+                             color=VT_DARK_STONE)
+                ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
                 if i == 0 and j == 0:
-                    ax.legend(fontsize=6, frameon=True,
-                              framealpha=0.9, edgecolor="#DDDDDD")
+                    ax.legend(fontsize=PLOT_FONT_SIZES["legend"],
+                              frameon=True, framealpha=0.92,
+                              edgecolor=VT_LIGHT_STONE)
 
-        fig.suptitle(f"Phase alignment — {label}", fontsize=8, fontweight="bold")
+        fig.suptitle(f"Phase alignment — {label}",
+                     fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+                     color=VT_MAROON)
         fig.tight_layout()
         fig.savefig(str(out_path))
         plt.close(fig)
@@ -351,11 +401,11 @@ def main():
 
         plot_absolute(label, pos_abs, time, y_pred, y_true,
                       marker_ids, stats,
-                      out_dir / f"traj_{label.replace('/', '_')}.png")
+                      out_dir / f"traj_{label.replace('/', '_')}.pdf")
 
         ts_pred = ts[HISTORY_WINDOW:HISTORY_WINDOW + len(y_pred)]
         plot_phase(label, y_pred, y_true, ts_pred, marker_ids, stats,
-                   out_dir / f"phase_{label.replace('/', '_')}.png")
+                   out_dir / f"phase_{label.replace('/', '_')}.pdf")
 
     print(f"\n  Done.  Outputs → {out_dir.resolve()}")
 

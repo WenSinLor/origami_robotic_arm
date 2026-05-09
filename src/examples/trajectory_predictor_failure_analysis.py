@@ -40,7 +40,8 @@ from sklearn.linear_model import Ridge
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════════
 
-ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+# ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+ROOT_DIR = "/home/wensin/Documents/origami_robotic_arm/data"
 
 DIRS = {
     "base": f"{ROOT_DIR}/soft_state_100g",
@@ -53,7 +54,7 @@ TARGET_MARKER_IDS = [4, 9, 13, 18]
 
 TRAIN_SAMPLES = [
     ("base", "trajectories_sample_0.h5"),
-    ("base", "trajectories_sample_1.h5"),
+    # ("base", "trajectories_sample_1.h5"),
     # ("base", "trajectories_sample_2.h5"),
 ]
 
@@ -74,26 +75,51 @@ LAG_MAX_FRAMES    = 12     # max +/- lag searched
 
 EPS = 1e-12
 
-PALETTE = ["#0072B2", "#E69F00", "#009E73", "#CC79A7",
-           "#56B4E9", "#D55E00", "#F0E442", "#000000"]
+VT_MAROON = "#861F41"
+VT_ORANGE = "#E5751F"
+VT_STONE = "#75787B"
+VT_DARK_STONE = "#54585A"
+VT_LIGHT_STONE = "#D7D2CB"
+VT_PALE_MAROON = "#F2E8ED"
+VT_GOLD = "#B3A369"
+VT_TEAL = "#508590"
+
+PLOT_FONT_SIZES = {
+    "base": 9,
+    "axis_label": 9,
+    "tick": 8,
+    "legend": 7.5,
+    "title": 10,
+    "panel_title": 9,
+    "suptitle": 10,
+    "annotation": 7,
+}
 
 PLOT_RC = {
-    "font.family": "sans-serif",
-    "font.sans-serif": ["Helvetica Neue", "Arial"],
-    "font.size": 8,
-    "axes.labelsize": 8,
-    "axes.titlesize": 9,
-    "xtick.labelsize": 7,
-    "ytick.labelsize": 7,
-    "legend.fontsize": 7,
-    "axes.linewidth": 0.7,
-    "axes.spines.top": False,
-    "axes.spines.right": False,
-    "figure.dpi": 220,
-    "savefig.dpi": 220,
-    "savefig.bbox": "tight",
+    "font.family":        "serif",
+    "font.serif":         ["Times New Roman", "Times", "DejaVu Serif"],
+    "mathtext.fontset":   "stix",
+    "font.size":          PLOT_FONT_SIZES["base"],
+    "axes.labelsize":     PLOT_FONT_SIZES["axis_label"],
+    "axes.titlesize":     PLOT_FONT_SIZES["panel_title"],
+    "xtick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "ytick.labelsize":    PLOT_FONT_SIZES["tick"],
+    "legend.fontsize":    PLOT_FONT_SIZES["legend"],
+    "axes.linewidth":     0.7,
+    "xtick.major.width":  0.7,
+    "ytick.major.width":  0.7,
+    "xtick.major.size":   3.0,
+    "ytick.major.size":   3.0,
+    "axes.spines.top":    False,
+    "axes.spines.right":  False,
+    "figure.dpi":         300,
+    "savefig.dpi":        300,
+    "savefig.bbox":       "tight",
     "savefig.pad_inches": 0.05,
 }
+
+PALETTE = [VT_MAROON, VT_ORANGE, VT_TEAL, VT_GOLD,
+           VT_STONE, "#C64600", VT_DARK_STONE, "#2C2A29"]
 
 # ══════════════════════════════════════════════════════════════════════════════
 # DATA I/O
@@ -352,16 +378,23 @@ def plot_time_series(ts, y_true, y_pred, y_tf, marker_ids, out_path):
             col = PALETTE[i % len(PALETTE)]
             ix, iy = 2*i, 2*i+1
             for ax, j, name in [(axes[i, 0], ix, "x"), (axes[i, 1], iy, "y")]:
-                ax.plot(ts, y_true[:, j], color="0.65", lw=1.1, label="true")
-                ax.plot(ts, y_tf[:, j], color="#56B4E9", lw=1.0, ls="--", label="1-step")
+                ax.plot(ts, y_true[:, j], color=VT_STONE, lw=1.1, label="true")
+                ax.plot(ts, y_tf[:, j], color=VT_ORANGE, lw=1.0, ls="--", label="1-step")
                 ax.plot(ts, y_pred[:, j], color=col, lw=1.0, label="autoregressive")
-                ax.set_title(f"Marker {m} — {name}(t)")
-                ax.set_xlabel("time (s)")
-                ax.set_ylabel("disp (px)")
+                ax.set_title(f"Marker {m} — {name}(t)",
+                             fontsize=PLOT_FONT_SIZES["panel_title"],
+                             color=VT_DARK_STONE)
+                ax.set_xlabel("time (s)", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.set_ylabel("disp (px)", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
                 if i == 0 and name == "x":
-                    ax.legend(frameon=True, framealpha=0.9)
+                    ax.legend(fontsize=PLOT_FONT_SIZES["legend"],
+                              frameon=True, framealpha=0.92,
+                              edgecolor=VT_LIGHT_STONE)
 
-        fig.suptitle("True vs one-step vs autoregressive time series", fontweight="bold")
+        fig.suptitle("True vs one-step vs autoregressive time series",
+                     fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+                     color=VT_MAROON)
         fig.tight_layout()
         fig.savefig(out_path)
         plt.close(fig)
@@ -376,17 +409,23 @@ def plot_lag(ts, y_true, y_pred, marker_ids, dt, out_path):
             axes = axes[np.newaxis, :]
 
         for i, m in enumerate(marker_ids):
+            col = PALETTE[i % len(PALETTE)]
             ix, iy = 2*i, 2*i+1
             for ax, j, name in [(axes[i, 0], ix, "x"), (axes[i, 1], iy, "y")]:
                 centers, lags = sliding_lag(y_true[:, j], y_pred[:, j])
                 if len(centers):
-                    ax.plot(ts[centers], lags * dt, lw=1.2)
-                    ax.axhline(0.0, color="0.75", lw=0.8, ls="--")
-                ax.set_title(f"Marker {m} — lag({name})")
-                ax.set_xlabel("time (s)")
-                ax.set_ylabel("lag (s)")
+                    ax.plot(ts[centers], lags * dt, color=col, lw=1.2)
+                    ax.axhline(0.0, color=VT_STONE, lw=0.8, ls="--")
+                ax.set_title(f"Marker {m} — lag({name})",
+                             fontsize=PLOT_FONT_SIZES["panel_title"],
+                             color=VT_DARK_STONE)
+                ax.set_xlabel("time (s)", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.set_ylabel("lag (s)", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
 
-        fig.suptitle("Sliding lag from cross-correlation", fontweight="bold")
+        fig.suptitle("Sliding lag from cross-correlation",
+                     fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+                     color=VT_MAROON)
         fig.tight_layout()
         fig.savefig(out_path)
         plt.close(fig)
@@ -406,15 +445,22 @@ def plot_envelope(ts, y_true, y_pred, marker_ids, out_path):
             for ax, j, name in [(axes[i, 0], ix, "x"), (axes[i, 1], iy, "y")]:
                 env_t = moving_rms(y_true[:, j], 9)
                 env_p = moving_rms(y_pred[:, j], 9)
-                ax.plot(ts, env_t, color="0.65", lw=1.1, label="true env")
+                ax.plot(ts, env_t, color=VT_STONE, lw=1.1, label="true env")
                 ax.plot(ts, env_p, color=col, lw=1.1, label="pred env")
-                ax.set_title(f"Marker {m} — envelope({name})")
-                ax.set_xlabel("time (s)")
-                ax.set_ylabel("RMS env (px)")
+                ax.set_title(f"Marker {m} — envelope({name})",
+                             fontsize=PLOT_FONT_SIZES["panel_title"],
+                             color=VT_DARK_STONE)
+                ax.set_xlabel("time (s)", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.set_ylabel("RMS env (px)", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
                 if i == 0 and name == "x":
-                    ax.legend(frameon=True, framealpha=0.9)
+                    ax.legend(fontsize=PLOT_FONT_SIZES["legend"],
+                              frameon=True, framealpha=0.92,
+                              edgecolor=VT_LIGHT_STONE)
 
-        fig.suptitle("Amplitude envelope comparison", fontweight="bold")
+        fig.suptitle("Amplitude envelope comparison",
+                     fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+                     color=VT_MAROON)
         fig.tight_layout()
         fig.savefig(out_path)
         plt.close(fig)
@@ -436,17 +482,24 @@ def plot_fft(y_true, y_pred, marker_ids, dt, out_path):
                 f_p, freqs_p, spec_p = dominant_frequency(y_pred[:, j], dt)
 
                 if freqs_t is not None:
-                    ax.plot(freqs_t, spec_t, color="0.65", lw=1.1, label=f"true f={f_t:.2f} Hz")
+                    ax.plot(freqs_t, spec_t, color=VT_STONE, lw=1.1, label=f"true f={f_t:.2f} Hz")
                 if freqs_p is not None:
                     ax.plot(freqs_p, spec_p, color=col, lw=1.0, label=f"pred f={f_p:.2f} Hz")
 
-                ax.set_title(f"Marker {m} — FFT({name})")
-                ax.set_xlabel("frequency (Hz)")
-                ax.set_ylabel("|FFT|")
+                ax.set_title(f"Marker {m} — FFT({name})",
+                             fontsize=PLOT_FONT_SIZES["panel_title"],
+                             color=VT_DARK_STONE)
+                ax.set_xlabel("frequency (Hz)", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.set_ylabel("|FFT|", fontsize=PLOT_FONT_SIZES["axis_label"])
+                ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
                 if i == 0 and name == "x":
-                    ax.legend(frameon=True, framealpha=0.9)
+                    ax.legend(fontsize=PLOT_FONT_SIZES["legend"],
+                              frameon=True, framealpha=0.92,
+                              edgecolor=VT_LIGHT_STONE)
 
-        fig.suptitle("Dominant frequency comparison", fontweight="bold")
+        fig.suptitle("Dominant frequency comparison",
+                     fontsize=PLOT_FONT_SIZES["suptitle"], fontweight="bold",
+                     color=VT_MAROON)
         fig.tight_layout()
         fig.savefig(out_path)
         plt.close(fig)
@@ -455,7 +508,7 @@ def plot_fft(y_true, y_pred, marker_ids, dt, out_path):
 def plot_scatter_summary(rows, out_path):
     """
     Scatter to visualize specialist-vs-average behavior:
-    x = one-step RMS, y = autoregressive RMS
+    x = one-step RMSE, y = autoregressive RMSE
     color = marker id
     """
     with plt.rc_context(PLOT_RC):
@@ -471,13 +524,19 @@ def plot_scatter_summary(rows, out_path):
 
             ax.annotate(f'{r["sample_label"]}-m{r["marker"]}',
                         (r["tf_rms"], r["ar_rms"]),
-                        textcoords="offset points", xytext=(3, 3), fontsize=6)
+                        textcoords="offset points", xytext=(3, 3),
+                        fontsize=PLOT_FONT_SIZES["annotation"],
+                        color=VT_DARK_STONE)
 
         lim = max([max(r["tf_rms"], r["ar_rms"]) for r in rows] + [1.0])
-        ax.plot([0, lim], [0, lim], color="0.7", ls="--", lw=1.0)
-        ax.set_xlabel("1-step RMS error")
-        ax.set_ylabel("Autoregressive RMS error")
-        ax.set_title("1-step vs autoregressive error")
+        ax.plot([0, lim], [0, lim], color=VT_STONE, ls="--", lw=1.0)
+        ax.set_xlabel("1-step RMSE", fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.set_ylabel("Autoregressive RMSE",
+                      fontsize=PLOT_FONT_SIZES["axis_label"])
+        ax.set_title("1-step vs autoregressive error",
+                     fontsize=PLOT_FONT_SIZES["title"], fontweight="bold",
+                     color=VT_MAROON)
+        ax.tick_params(axis="both", labelsize=PLOT_FONT_SIZES["tick"])
         fig.tight_layout()
         fig.savefig(out_path)
         plt.close(fig)
@@ -606,19 +665,19 @@ def main():
         # Figures
         plot_time_series(
             ts_pred, y_true, y_pred, y_tf, marker_ids,
-            out_dir / f"{sample_label}_time_series.png"
+            out_dir / f"{sample_label}_time_series.pdf"
         )
         plot_lag(
             ts_pred, y_true, y_pred, marker_ids, dt,
-            out_dir / f"{sample_label}_lag.png"
+            out_dir / f"{sample_label}_lag.pdf"
         )
         plot_envelope(
             ts_pred, y_true, y_pred, marker_ids,
-            out_dir / f"{sample_label}_envelope.png"
+            out_dir / f"{sample_label}_envelope.pdf"
         )
         plot_fft(
             y_true, y_pred, marker_ids, dt,
-            out_dir / f"{sample_label}_fft.png"
+            out_dir / f"{sample_label}_fft.pdf"
         )
 
         # Per-marker summary
@@ -638,12 +697,12 @@ def main():
                 f"Marker {m}: "
                 f"x={row['x_failure_mode']}, "
                 f"y={row['y_failure_mode']}, "
-                f"AR RMS≈{0.5*(row['x_ar_rms']+row['y_ar_rms']):.3f}"
+                f"AR RMSE≈{0.5*(row['x_ar_rms']+row['y_ar_rms']):.3f}"
             )
 
     save_csv(csv_rows, out_dir / "failure_mode_summary.csv")
     if scatter_rows:
-        plot_scatter_summary(scatter_rows, out_dir / "one_step_vs_autoregressive.png")
+        plot_scatter_summary(scatter_rows, out_dir / "one_step_vs_autoregressive.pdf")
 
     print(f"\nSaved diagnostics to:\n{out_dir.resolve()}")
 

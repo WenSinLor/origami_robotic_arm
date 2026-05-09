@@ -1,0 +1,9 @@
+Streaming readout timing metrics
+================================
+target_offset: 4
+tolerance_abs: 0.5
+band_lower: 3.5
+band_upper: 4.5
+entered_band: 1
+time_to_enter_s: 0.402
+predicted_offset_at_entry: 3.64149
