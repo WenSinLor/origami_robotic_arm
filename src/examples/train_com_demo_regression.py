@@ -27,8 +27,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════════
 
-# ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
-ROOT_DIR = "/home/wensin/Documents/origami_robotic_arm/data"
+ROOT_DIR = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data"
+# ROOT_DIR = "/home/wensin/Documents/origami_robotic_arm/data"
 
 DIRS = {
     "base":      f"{ROOT_DIR}/soft_state_100g_bending_sensor",
