@@ -7,8 +7,8 @@ import os
 # CONFIGURATION
 # ============================================================
 
-DATA_DIR   = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_nearest_bending_sensor"
-OUTPUT_PNG = "/Users/albertlor/Documents/Academic_PhD/origami_robotic_arm/data/soft_state_100g_nearest_bending_sensor/bending_sensor_overview.png"  # None = show only
+DATA_DIR   = "/home/wensin/Documents/origami_robotic_arm/data/soft_state_100g_near_bending_sensor"
+OUTPUT_PNG = "/home/wensin/Documents/origami_robotic_arm/data/soft_state_100g_near_bending_sensor/bending_sensor_overview.pdf"  # None = show only
 
 COOR_FOLDERS = ["coor_0", "coor_1", "coor_2", "coor_3"]
 COOR_LABELS  = ["Coor 0", "Coor 1", "Coor 2", "Coor 3"]
@@ -23,7 +23,7 @@ T_END   = None
 
 datasets = {}
 for folder in COOR_FOLDERS:
-    csv_path = os.path.join(DATA_DIR, folder, f"soft_state_100g_nearest_{folder}.csv")
+    csv_path = os.path.join(DATA_DIR, folder, f"soft_state_100g_near_{folder}.csv")
     df = pd.read_csv(csv_path)
     datasets[folder] = df
     print(f"Loaded {folder}: {len(df)} samples, t=[{df['Time'].iloc[0]:.3f}, {df['Time'].iloc[-1]:.3f}]s")
